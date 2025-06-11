@@ -811,11 +811,12 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>HuyenIELTS</h1>
-            <p class="hero-subtitle" style="color:black">Top 10 trung tâm luyện thi IELTS tốt nhất Hải Phòng</p>
-            <a href="#contact" class="cta-button">📞 Zalo đăng ký học: 0943540585</a>
+    <section class="courses section">
+        <div class="container hero-content">
+            <h2 class="section-title fade-in">HuyenIELTS</h2>
+            <a href="http://huyenielts.com/" target="_blank">
+                <MudImage src="/images/GV.png" class="img-fluid" Rounded="true" />
+            </a>
         </div>
     </section>
 
@@ -825,22 +826,22 @@
             <h2 class="section-title fade-in">Tại sao lại học tại HuyenIELTS</h2>
             <div class="features-grid">
                 <div class="feature-card fade-in">
-                    <img src="images/H1.png" class="img-fluid" >
+                    <img src="images/H1.png" class="img-fluid">
                     <h3>Lớp học tương tác</h3>
                     <p>Tích hợp nhiều hoạt động và trò chơi, phát huy tính tích cực, chủ động, sáng tạo của học viên</p>
                 </div>
                 <div class="feature-card fade-in">
-                    <img src="images/H2.png" class="img-fluid" >
+                    <img src="images/H2.png" class="img-fluid">
                     <h3>Chương trình toàn diện</h3>
                     <p>Lộ trình học IELTS từ cơ bản đến nâng cao, mục tiêu 5.0, 6.0, 7.0 IELTS</p>
                 </div>
                 <div class="feature-card fade-in">
-                    <img src="images/H3.png" class="img-fluid" >
+                    <img src="images/H3.png" class="img-fluid">
                     <h3>Giáo viên 8.0+</h3>
                     <p>Đội ngũ giáo viên IELTS 8.0+ giàu kinh nghiệm, năng động và nhiệt huyết</p>
                 </div>
                 <div class="feature-card fade-in">
-                    <img src="images/H4.png" class="img-fluid" >
+                    <img src="images/H4.png" class="img-fluid">
                     <h3>Cam kết đầu ra</h3>
                     <p>Lộ trình học có cam kết đầu ra. Truy cập khóa học online miễn phí</p>
                 </div>
@@ -870,7 +871,7 @@
                 <div class="course-card" onclick="openPopup('intensive')">
                     <img src="images/int.png" class="img-fluid">
 
-                   
+
                     <h3 class="teacher-name"> IELTS INTENSIVE <br />Luyện chuyên sâu từng kỹ năng IELTS</h3>
 
                     <button class="btn-detail">Xem chi tiết</button>
@@ -888,7 +889,7 @@
                     <h3 class="teacher-name">Khóa học IELTS cá nhân hóa<br />IELTS Tutor hoặc Cấp tốc </h3>
 
                     <button class="btn-detail">Xem chi tiết</button>
-                    
+
                 </div>
             </div>
         </div>
@@ -1002,7 +1003,7 @@
                 <div class="contact-item fade-in">
                     <div class="contact-icon">📱</div>
                     <h3>Zalo/Hotline</h3>
-                    <p >0916991290</p>
+                    <p>0916991290</p>
                     <p>0943540585</p>
                     <p>0847278119</p>
                 </div>
@@ -1023,7 +1024,8 @@
                     <h3>Mạng xã hội</h3>
                     <p><a href="https://www.facebook.com/HuyenIELTS" style="color: #ffd700;" target="_blank">Facebook</a></p>
                     <p><a href="https://www.tiktok.com/@@huyenielts" style="color: #ffd700;" target="_blank">TikTok</a></p>
-                    <p><a href="https://vn.linkedin.com/in/ph%E1%BA%A1m-b%E1%BA%A3o-thanh-huy%E1%BB%81n-494283b7"
+                    <p>
+                        <a href="https://vn.linkedin.com/in/ph%E1%BA%A1m-b%E1%BA%A3o-thanh-huy%E1%BB%81n-494283b7"
                            style="color: #ffd700;" target="_blank">LinkedIn</a>
                     </p>
                 </div>
@@ -1041,7 +1043,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <img src="images/logo.png" class="img-fluid" style="max-width:100px;"/>
+            <img src="images/logo.png" class="img-fluid" style="max-width:100px;" />
             <p style="color:yellow">&copy; 2018 HuyenIELTS. All rights reserved.</p>
             <p style="margin-top: 10px; opacity: 0.8; color:yellow">Top 10 trung tâm luyện thi IELTS tốt nhất Hải Phòng</p>
         </div>
@@ -1061,7 +1063,7 @@
                 }
             });
         });
-const courseData = {
+        const courseData = {
             foundation: {
                 title: "IELTS FOUNDATION",
                 subtitle: "Cơ bản nhưng không nhàm!",
@@ -1258,7 +1260,7 @@ const courseData = {
             course.sections.forEach(section => {
                 content += `<div class="info-section">`;
                 content += `<div class="info-title">${section.title}</div>`;
-                
+
                 if (section.isPrice) {
                     content += `<div class="price-highlight">${section.content}</div>`;
                 } else if (Array.isArray(section.content)) {
@@ -1270,44 +1272,44 @@ const courseData = {
                 } else {
                     content += `<div class="info-content">${section.content}</div>`;
                 }
-                
+
                 content += `</div>`;
             });
 
             // Add contact section
             content += `
-               <div class="contact-section">
-     <h3>📞 Liên hệ đăng ký</h3>
-     <div class="contact-info">
+                   <div class="contact-section">
+         <h3>📞 Liên hệ đăng ký</h3>
+         <div class="contact-info">
 
-         <div class="contact-item">
-                     <div class="contact-icon">Zalo/Hotline</div>
-                               <p>0847278119</p>
-             <p >0916991290</p>
-             <p>0943540585</p>
+             <div class="contact-item">
+                         <div class="contact-icon">Zalo/Hotline</div>
+                                   <p>0847278119</p>
+                 <p >0916991290</p>
+                 <p>0943540585</p>
 
+             </div>
+
+             <div class="contact-item">
+                 <div class="contact-icon">🌐</div>
+                                          <p><a href="https://www.facebook.com/HuyenIELTS" style="color: white;" target="_blank">Facebook</a></p>
+                <p><a href="https://www.tiktok.com/@@huyenielts" style="color: white;" target="_blank">TikTok</a></p>
+
+                     </div>
+
+                     <div class="contact-item">
+
+                      <div class="contact-icon">📍</div>
+                         <p>17/29/46 Lạch Tray, Hải Phòng</div>
+                                 <a href="https://www.google.com/maps/place/HuyenIELTS/@@20.8488142,106.6856753,17z/data=!3m1!4b1!4m6!3m5!1s0x314a7b7ce7575da7:0x96f320db8060e6c6!8m2!3d20.8488142!4d106.6882502!16s%2Fg%2F11v5b61gzs?entry=ttu"
+         class="cta-button" style="margin-top: 2rem; display: inline-block;" target="_blank">
+          📍 Xem trên Google Maps
+      </a>
+                     </p>
          </div>
 
-         <div class="contact-item">
-             <div class="contact-icon">🌐</div>
-                                      <p><a href="https://www.facebook.com/HuyenIELTS" style="color: white;" target="_blank">Facebook</a></p>
-            <p><a href="https://www.tiktok.com/@@huyenielts" style="color: white;" target="_blank">TikTok</a></p>
-
-                 </div>
-
-                 <div class="contact-item">
-
-                  <div class="contact-icon">📍</div>
-                     <p>17/29/46 Lạch Tray, Hải Phòng</div>
-                             <a href="https://www.google.com/maps/place/HuyenIELTS/@@20.8488142,106.6856753,17z/data=!3m1!4b1!4m6!3m5!1s0x314a7b7ce7575da7:0x96f320db8060e6c6!8m2!3d20.8488142!4d106.6882502!16s%2Fg%2F11v5b61gzs?entry=ttu"
-     class="cta-button" style="margin-top: 2rem; display: inline-block;" target="_blank">
-      📍 Xem trên Google Maps
-  </a>
-                 </p>
      </div>
-              
- </div>
-            `;
+                `;
 
             body.innerHTML = content;
 
@@ -1318,21 +1320,21 @@ const courseData = {
 
         function closePopup(event) {
             if (event && event.target !== event.currentTarget) return;
-            
+
             const overlay = document.getElementById('popupOverlay');
             overlay.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
         // Close popup with Escape key
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
                 closePopup();
             }
         });
 
-    // Prevent body scroll when popup is open (but allow popup content to scroll)
-        document.getElementById('popupOverlay').addEventListener('wheel', function(e) {
+        // Prevent body scroll when popup is open (but allow popup content to scroll)
+        document.getElementById('popupOverlay').addEventListener('wheel', function (e) {
             // Only prevent if scrolling on the overlay itself, not the popup content
             if (e.target === this) {
                 e.preventDefault();
@@ -1389,22 +1391,22 @@ const courseData = {
         const fab = document.createElement('div');
         fab.innerHTML = '📞';
         fab.style.cssText = `
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, #25D366, #20B358);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        `;
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                width: 60px;
+                height: 60px;
+                background: linear-gradient(45deg, #25D366, #20B358);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                cursor: pointer;
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+                z-index: 1000;
+                transition: all 0.3s ease;
+            `;
 
         fab.addEventListener('mouseenter', () => {
             fab.style.transform = 'scale(1.1)';
@@ -1487,15 +1489,15 @@ const courseData = {
         const mobileMenuToggle = document.createElement('div');
         mobileMenuToggle.innerHTML = '☰';
         mobileMenuToggle.style.cssText = `
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: white;
-            
-            @@media (max-width: 768px) {
-                display: block;
-            }
-        `;
+                display: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: white;
+
+                @@media (max-width: 768px) {
+                    display: block;
+                }
+            `;
 
         // Add to navigation
         const navContainer = document.querySelector('.nav-container');
