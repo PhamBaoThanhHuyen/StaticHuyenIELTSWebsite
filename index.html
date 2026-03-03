@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HuyenIELTS - Top 10 trung tâm luyện thi IELTS tốt nhất Hải Phòng</title>
-    <link rel="icon" type="image/x-icon" href="images/hifavicon.ico">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 
     <style>
         * {
@@ -60,9 +60,9 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, yellow 0%, teal 100%);
+            background: #fff200;
             color: white;
-            padding: 120px 0 80px;
+            padding: 150px 0 80px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -92,7 +92,7 @@
         .hero-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 0.5rem;
             position: relative;
             z-index: 2;
         }
@@ -222,7 +222,7 @@
 
         .course-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 25px;
             margin-bottom: 50px;
         }
@@ -791,18 +791,24 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="courses section" style="height: 400px; height: auto;">
-        <div style="display: flex; justify-content: center; align-items: center;margin-top:50px  ">
-            <img src="images/GV.png" class="img-fluid course-card">
+  <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+			
+               <img src="images/GV.png" class="img-fluid" />
+            </div>
         </div>
     </section>
+
+  
 
     <!-- Why Choose Us -->
     <section class="why-choose section">
         <div class="container">
-      
+
             <h2 class="section-title fade-in">Tại sao lại học tại HuyenIELTS</h2>
+
+			
             <div class="features-grid">
                 <div class="feature-card fade-in">
                     <img src="images/H1.png" class="img-fluid">
@@ -837,14 +843,14 @@
                     <img src="images/found.png" class="img-fluid">
 
                     <p >Từ Vựng + Ngữ pháp cơ bản cho IELTS</p>
-                    <button class="btn-detail">Xem chi tiết</button>
+                    <button class="btn-detail">FOUNDATION</button>
                 </div>
 
                 <div class="course-card" onclick="openPopup('preielts')">
                     <img src="images/pre.png" class="img-fluid">
 
                     <p>Làm quen với các dạng bài IELTS</p>
-                    <button class="btn-detail">Xem chi tiết</button>
+                    <button class="btn-detail">PRE-IELTS</button>
                 </div>
 
                 <div class="course-card" onclick="openPopup('intensive')">
@@ -853,15 +859,15 @@
 
                     <p> Luyện chuyên sâu từng kỹ năng IELTS</p>
 
-                    <button class="btn-detail">Xem chi tiết</button>
+                    <button class="btn-detail">INTENSIVE</button>
                 </div>
 
                 <div class="course-card" onclick="openPopup('drill')">
                     <img src="images/drill.png" class="img-fluid">
 
-                    <p> Cày đề thi IELTS</p>
+                    <p> Cày đề thi IELTS với các đề thi thật</p>
 
-                    <button class="btn-detail">Xem chi tiết</button>
+                    <button class="btn-detail">DRILL</button>
                 </div>
 
                 <div class="course-card" onclick="openPopup('others')">
@@ -869,7 +875,7 @@
 
                     <p>Dạy kèm 1-1 IELTS Tutor</p>
 
-                    <button class="btn-detail">Xem chi tiết</button>
+                    <button class="btn-detail">IELTS TUTOR</button>
 
                 </div>
 				 <div class="course-card" onclick="openPopup('others')">
@@ -877,7 +883,7 @@
 
                     <p>IELTS Cấp tốc</p>
 
-                    <button class="btn-detail">Xem chi tiết</button>
+                    <button class="btn-detail">IELTS CẤP TỐC</button>
 
                 </div>
             </div>
@@ -938,7 +944,8 @@
                         <p>⭐ Giáo viên kỳ cựu thế hệ F1 HuyenIELTS</p>
                         <p>🏆 IELTS 8.0 Overall (9.0 Listening + 9.0 Reading)</p>
                         <p>📚 Kinh nghiệm 5 năm giảng dạy chuyên sâu IELTS</p>
-                        <p>🎬 Founder VMU Entertainment (18k followers)</p>
+                         <p>🎬 Founder Toi.yeu.reading.ai.eo (+100k followers on Tiktok)</p>
+
                     </div>
                 </div>
 
@@ -951,7 +958,7 @@
                         <p>🏆 Reading 8.0, Listening 8.0</p>
                         <p>📚 Kinh nghiệm 5 năm giảng dạy chuyên sâu IELTS</p>
                         <p>🥇 Thủ khoa ngành Ngôn Ngữ Anh K2016 - ĐH Hàng hải</p>
-                        <p>📸 Nhiếp ảnh gia wannabe</p>
+                        <p>📸 Nhiếp ảnh gia.</p>
                     </div>
                 </div>
 
@@ -1267,7 +1274,7 @@
                          <div class="contact-icon">Zalo/Hotline</div>
                                    <p>0847278119</p>
                  <p >0916991290</p>
-                 <p>0943540585</p>
+               
 
              </div>
 
@@ -1351,10 +1358,10 @@
         window.addEventListener('scroll', () => {
             const header = document.querySelector('.header');
             if (window.scrollY > 100) {
-                header.style.background = 'yellow';
+                header.style.background = '#fff200';
                 header.style.backdropFilter = 'blur(10px)';
             } else {
-                header.style.background = 'yellow';
+                header.style.background = '#fff200';
                 header.style.backdropFilter = 'none';
             }
         });
