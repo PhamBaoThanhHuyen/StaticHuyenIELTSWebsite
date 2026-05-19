@@ -43,7 +43,7 @@ img{max-width:100%;height:auto;display:block;}
 
 /* ── HERO ── */
 .hero{background:var(--dark);position:relative;overflow:hidden;padding:4rem 2rem;}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(255,213,0,.12) 0%,transparent 65%);}
+.hero::before{content:'';position:absolute;inset:0;background:var(--dark); transparent: 60%x`;}
 .hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;position:relative;}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,200,150,.12);color:#00C896;border:1px solid rgba(0,200,150,.3);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:500;margin-bottom:1.2rem;}
 .hero-eyebrow::before{content:'';width:8px;height:8px;background:#00C896;border-radius:50%;animation:pulse 2s infinite;}
@@ -323,7 +323,7 @@ footer p:last-child{color:rgba(255,255,255,.4);font-size:12px;}
     <div class="course-grid">
 
       <div class="course-card fade-in" onclick="openPopup('foundation')">
-        <img src="images/found.jfif" alt="Foundation" onerror="this.style.display='none'"/>
+        <img src="images/found2.png" alt="Foundation" onerror="this.style.display='none'"/>
         <p><b>KHÓA IELTS FOUNDATION</b><br/>Xây nền từ vựng &amp; ngữ pháp chắc như bê tông trước khi chiến IELTS.</p>
         <p style="font-style:italic">Mất gốc vẫn cứu được</p>
         <button class="btn-detail">FOUNDATION</button>
@@ -719,7 +719,7 @@ const courseData={
     title:"IELTS FOUNDATION",subtitle:"Xây nền từ vựng & ngữ pháp chắc như bê tông trước khi chiến IELTS!",
     sections:[
       {title:"⏰ Thời lượng",content:"09 tuần, 18 buổi học (2 buổi/tuần)"},
-      {title:"💰 Học phí",content:"3,000,000 VNĐ<br><small style='font-size:13px;font-weight:400;'>Đã bao gồm toàn bộ chi phí in ấn, photo tài liệu, không phát sinh</small>",isPrice:true},
+      {title:"💰 Học phí",content:"3,000,000 VNĐ<br><small style='font-size:13px;font-weight:400;'>Đã bao gồm toàn bộ chi phí tài liệu học.</small>",isPrice:true},
       {title:"📚 Nội dung học",content:["Từ vựng học thuật IELTS: Education, Sports, Travel, Work, Food, the Media, Environment, Healthcare, Crime, Law...","Ngữ pháp thần thánh cho IELTS: Verb Tenses, Modals, Conditionals, Relative Clauses...","Lớp nhóm nhỏ ~8 học viên"]},
       {title:"🎯 Phù hợp với",content:["Bạn đang loay hoay với ngữ pháp cơ bản","Bạn cần từ vựng xịn để làm bài thi Academic","Bạn cần củng cố phát âm sao cho thật chuẩn."]}
     ]
@@ -728,7 +728,7 @@ const courseData={
     title:"Pre-IELTS",subtitle:"Hiểu từng dạng bài IELTS trước khi tăng tốc.",
     sections:[
       {title:"⏰ Thời lượng",content:"08 tuần, 24 buổi học (3 buổi/tuần)"},
-      {title:"💰 Học phí",content:"3,900,000 VNĐ/24 buổi<br><small style='font-size:13px;font-weight:400;'>Bao gồm toàn bộ tài liệu, không lo phát sinh chi phí!</small>",isPrice:true},
+      {title:"💰 Học phí",content:"3,900,000 VNĐ/24 buổi<br><small style='font-size:13px;font-weight:400;'>Bao gồm toàn bộ tài liệu học.</small>",isPrice:true},
       {title:"📚 Nội dung học",content:["Writing: Viết đoạn ngắn các chủ đề của bài Essay như Benefits, Drawbacks, Solutions...","Reading: Làm quen với các dạng câu hỏi dễ trong IELTS từ các đoạn ngắn.","Speaking: Làm quen với các câu hỏi hội thoại và độc thoại IELTS"]},
       {title:"🎯 Phù hợp với",content:["Bạn mới bắt đầu làm quen với IELTS","Đã nắm vững ngữ pháp cơ bản, có chút vốn từ để chiến bài đọc","Đã có nền tảng ngữ pháp và từ vựng cơ bản"]},
       {title:"🎯 Mục tiêu",content:"Xây nền vững trước khi cày IELTS thực tế"}
