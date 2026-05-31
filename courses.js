@@ -28,7 +28,7 @@ const courses = [
   },
    {
     code: "DL8",
-    type: "Drill Writing",
+    type: "Drill Listening",
     target: "Học viên đã nắm được các dạng bài IELTS hoặc đã thi được 5.5+",
     goal: "IELTS 6.5+",
     schedule: "Thứ 4 hàng tuần lúc 19.30",
@@ -46,7 +46,7 @@ const courses = [
   },
   {
     code: "I75",
-    type: "Intensive",
+    type: "Intensive 4 kỹ năng",
     target: "Học viên muốn học chuyên sâu về các kỹ năng để làm bài IELTS",
     goal: "IELTS 5.5+",
     schedule: "Thứ 3456 hàng tuần lúc 19.30",
@@ -64,7 +64,7 @@ const courses = [
   },
   {
     code: "P76",
-    type: "Pre-IELTS",
+    type: "Pre-IELTS W-R-S",
     target: "Học viên đã có nền tảng cơ bản muốn làm quen với các dạng bài IELTS",
     goal: "Làm quen với các dạng bài IELTS",
     schedule: "Thứ 2-4-6 hàng tuần lúc 19.30",
