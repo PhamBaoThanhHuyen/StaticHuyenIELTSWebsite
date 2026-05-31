@@ -149,6 +149,17 @@ img{max-width:100%;height:auto;display:block;}
 .xem-them-btn{background:none;border:1.5px solid var(--bd);border-radius:50px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--mt);padding:6px 16px;cursor:pointer;margin-top:10px;transition:border-color .2s,color .2s;display:none;}
 .xem-them-btn:hover{border-color:var(--y);color:var(--yt);}
 
+/* ── Upcoming ── */
+.upcoming-section{background:var(--yl);border-top:1px solid var(--bd);}
+.upcoming-section .section-title{color:var(--tx);}
+.upcoming-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+.upcoming-card{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:1.5rem;transition:box-shadow .2s;}
+.upcoming-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.07);}
+.upcoming-role{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ym);font-weight:500;background:var(--yl);display:inline-block;padding:3px 10px;border-radius:50px;margin-bottom:8px;}
+.upcoming-name{font-family:'Fraunces',serif;font-size:19px;font-weight:900;color:var(--tx);margin-bottom:10px;}
+.upcoming-achievements p{font-size:13px;color:var(--mt); line-height:1.5;margin-bottom:5px;}
+
+
 /* ── CONTACT (YELLOW) ── */
 .contact-section{background:var(--y);}
 .contact-section .section-label{color:var(--ym);}
@@ -217,6 +228,9 @@ footer p:last-child{color:rgba(255,255,255,.4);font-size:12px;}
   .contact-info{grid-template-columns:1fr 1fr;}
 }
 </style>
+
+<script src="courses.js"></script>
+
 </head>
 <body>
 
@@ -228,6 +242,8 @@ footer p:last-child{color:rgba(255,255,255,.4);font-size:12px;}
       <li><a href="#home">Trang chủ</a></li>
       <li><a href="#courses">Khóa học</a></li>
       <li><a href="#teachers">Giáo viên</a></li>
+	     <li><a href="#upcoming">Sắp khai giảng</a></li>
+
       <li><a href="#contact">Liên hệ</a></li>
       <li><a href="https://huyenieltsstudentspace.azurewebsites.net/" target="_blank">StudentSpace</a></li>
     </ul>
@@ -242,6 +258,8 @@ footer p:last-child{color:rgba(255,255,255,.4);font-size:12px;}
   <a href="#courses">Khóa học</a>
   <a href="#teachers">Giáo viên</a>
   <a href="#contact">Liên hệ</a>
+    <a href="#upcoming">Sắp khai giảng</a>
+
   <a href="https://huyenieltsstudentspace.azurewebsites.net/" target="_blank">StudentSpace</a>
   <button class="mob-cta-btn" onclick="document.getElementById('mobileMenu').classList.remove('open');document.getElementById('hamburger').classList.remove('open');document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Đăng ký miễn phí</button>
 </div>
@@ -564,6 +582,17 @@ footer p:last-child{color:rgba(255,255,255,.4);font-size:12px;}
   </div>
 </section>
 
+
+<section class="upcoming-section section" id="upcoming">
+  <div class="container">
+    <div class="section-label">Các khóa học</div>
+    <h2 class="section-title">Sắp khai giảng tại <span class="uy">HuyenIELTS</span></h2>
+    <div class="upcoming-grid"></div>
+  </div>
+</section>
+
+
+
 <!-- ── CONTACT ── -->
 <section class="contact-section section" id="contact">
   <div class="container">
@@ -575,30 +604,26 @@ footer p:last-child{color:rgba(255,255,255,.4);font-size:12px;}
 <div class="contact-info">
   <div class="contact-item fade-in">
     <div class="contact-icon">👯</div>
-    <h3>Đi học có bestie – Giảm 10%</h3>
-    <p>Rủ ngay đứa bạn cùng “cày IELTS”</p>
-    <p>Đăng ký 2 bạn cùng lúc nhận ngay giảm 10% học phí</p>
+    <h3>Giảm 10%</h3>
+    <p>Dành cho học viên đăng ký 2 bạn cùng lúc </p>
   </div>
 
   <div class="contact-item fade-in">
     <div class="contact-icon">💛</div>
-    <h3>Không để ai bỏ lỡ cơ hội học</h3>
-    <p>Giảm từ 10% – 30% học phí</p>
-<p>Dành cho học viên đang gặp khó khăn tài chính. Chỉ cần bạn muốn cố gắng, HuyenIELTS luôn muốn đồng hành.</p>
+    <h3>Giảm từ 10% – 30% học phí</h3>
+<p>Dành cho học viên đang gặp hoàn cảnh khó khăn về tài chính. </p>
   </div>
 
   <div class="contact-item fade-in">
     <div class="contact-icon">🌱</div>
-    <h3>Người tử tế luôn có quà</h3>
-    <p>Giảm từ 10% – 20% học phí</p>
-    <p>Dành cho những bạn đang âm thầm làm điều tốt: thiện nguyện, CLB, hoạt động vì cộng đồng. </p>
+    <h3>Giảm từ 10% – 30% học phí</h3>
+    <p>Dành cho những bạn đang tham gia các CLB thiện nguyện, hoạt động vì cộng đồng. </p>
   </div>
 
 <div class="contact-item fade-in">
   <div class="contact-icon">🌟</div>
-  <h3>Ưu đãi cho những nỗ lực xuất sắc</h3>
-  <p>Giảm ngay 10% học phí</p>
-  <p>Dành cho các bạn đạt từ 9.5 trở lên ở bất kỳ môn học nào trên trường – vì thần đồng luôn xứng đáng được thưởng.</p>
+  <h3>Giảm ngay 10% học phí</h3>
+  <p>Dành cho các bạn đạt từ 9.5 trở lên ở bất kỳ môn học nào trên trường.</p>
 </div>
   
 </div>
@@ -639,6 +664,12 @@ footer p:last-child{color:rgba(255,255,255,.4);font-size:12px;}
             <option value="Du học / Công việc / Giao lưu bạn bè">Du học / Công việc / Giao lưu bạn bè</option>
           </select>
         </div>
+		        <span class="form-section-label">Khóa học quan tâm:</span>
+
+		        <div class="form-group" style="margin-bottom:12px;">
+
+		<select id="course-select" name="---"></select>        </div>
+
         <div class="form-group full" style="margin-bottom:0;">
           <label>Mong muốn hoặc ghi chú thêm</label>
           <input type="text" name="Yêu cầu khác" placeholder="Ví dụ: Tôi cần thi IELTS vào tháng 6..."/>
@@ -875,6 +906,11 @@ document.querySelectorAll('.course-card').forEach(card=>{
     setTimeout(()=>this.style.transform='',150);
   });
 });
+
+
+
+
+
 </script>
 </body>
 </html>
