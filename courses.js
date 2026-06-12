@@ -31,7 +31,7 @@ const courses = [
     type: "Drill Listening",
     target: "Học viên đã nắm được các dạng bài IELTS hoặc đã thi được 5.5+",
     goal: "IELTS 6.5+",
-    schedule: "Thứ 4 hàng tuần lúc 19.30",
+    schedule: "Thứ 6 hàng tuần lúc 19.30",
     startDate: "12/6",
     fee: "600k/tháng"
   },
@@ -58,7 +58,7 @@ const courses = [
     type: "Foundation",
     target: "Học viên muốn ôn lại nền tảng từ vựng ngữ pháp cho IELTS",
     goal: "IELTS 5.5+",
-    schedule: "Thứ 3-5 hàng tuần lúc 19.30",
+    schedule: "Thứ 5-7 hàng tuần lúc 19.30",
     startDate: "12/6",
     fee: "3000k/khóa"
   },
@@ -67,7 +67,7 @@ const courses = [
     type: "Pre-IELTS W-R-S",
     target: "Học viên đã có nền tảng cơ bản muốn làm quen với các dạng bài IELTS",
     goal: "Làm quen với các dạng bài IELTS",
-    schedule: "Thứ 2-4-6 hàng tuần lúc 19.30",
+    schedule: "Thứ 3-4-5 hàng tuần lúc 19.30",
     startDate: "20/6",
     fee: "3900k/khóa"
   }
