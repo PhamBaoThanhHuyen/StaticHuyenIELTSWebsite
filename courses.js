@@ -1,65 +1,22 @@
 const courses = [
-  {
-    code: "DS8",
-    type: "Drill Speaking",
-    target: "Học viên đã nắm được các dạng bài IELTS hoặc đã thi được 5.5+",
-    goal: "IELTS 6.5+",
-    schedule: "Thứ 4 hàng tuần lúc 18.00",
-    startDate: "12/6",
-    fee: "600k/tháng"
-  },
-  {
-    code: "DW8",
-    type: "Drill Writing",
-    target: "Học viên đã nắm được các dạng bài IELTS hoặc đã thi được 5.5+",
-    goal: "IELTS 6.5+",
-    schedule: "Thứ 2 hàng tuần lúc 18.00",
-    startDate: "12/6",
-    fee: "600k/tháng"
-  },
-   {
-    code: "DR8",
-    type: "Drill Reading",
-    target: "Học viên đã nắm được các dạng bài IELTS hoặc đã thi được 5.5+",
-    goal: "IELTS 6.5+",
-    schedule: "Thứ 6 hàng tuần lúc 18.00",
-    startDate: "12/6",
-    fee: "600k/tháng"
-  },
-   {
-    code: "DL8",
-    type: "Drill Listening",
-    target: "Học viên đã nắm được các dạng bài IELTS hoặc đã thi được 5.5+",
-    goal: "IELTS 6.5+",
-    schedule: "Thứ 6 hàng tuần lúc 19.30",
-    startDate: "12/6",
-    fee: "600k/tháng"
-  },
+     
   {
     code: "D-Online",
     type: "Drill Writing/Speaking ONLINE",
     target: "Học viên đã nắm được các dạng bài IELTS hoặc đã thi được 5.5+",
     goal: "IELTS 6.5+",
     schedule: "Thứ 3-5 hàng tuần lúc 19.30",
-    startDate: "12/6",
+    startDate: "1/7",
     fee: "1200k/tháng"
   },
+  
   {
-    code: "I75",
-    type: "Intensive 4 kỹ năng",
-    target: "Học viên muốn học chuyên sâu về các kỹ năng để làm bài IELTS",
-    goal: "IELTS 5.5+",
-    schedule: "Thứ 3456 hàng tuần lúc 19.30",
-    startDate: "20/6",
-    fee: "3000k/khóa"
-  },
-  {
-    code: "F80",
+    code: "F81",
     type: "Foundation",
     target: "Học viên muốn ôn lại nền tảng từ vựng ngữ pháp cho IELTS",
     goal: "IELTS 5.5+",
-    schedule: "Thứ 5-7 hàng tuần lúc 19.30",
-    startDate: "12/6",
+    schedule: "Thứ 4-6 hàng tuần lúc 19.30",
+    startDate: "1/7",
     fee: "3000k/khóa"
   },
   {
@@ -68,8 +25,17 @@ const courses = [
     target: "Học viên đã có nền tảng cơ bản muốn làm quen với các dạng bài IELTS",
     goal: "Làm quen với các dạng bài IELTS",
     schedule: "Thứ 3-4-5 hàng tuần lúc 19.30",
-    startDate: "20/6",
+    startDate: "27/6",
     fee: "3900k/khóa"
+  },
+  {
+    code: "I76",
+    type: "Intensive 4 kỹ năng",
+    target: "Học viên muốn học chuyên sâu về các kỹ năng để làm bài IELTS",
+    goal: "IELTS 5.5+",
+    schedule: "Thứ 3456 hàng tuần lúc 19.30",
+    startDate: "1/8",
+    fee: "3000k/khóa"
   }
 ];
 
