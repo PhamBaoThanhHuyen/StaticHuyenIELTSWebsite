@@ -1,14 +1,6 @@
 const courses = [
      
-  {
-    code: "D-Online",
-    type: "Drill Writing/Speaking ONLINE",
-    target: "Học viên đã nắm được các dạng bài IELTS hoặc đã thi được 5.5+",
-    goal: "IELTS 6.5+",
-    schedule: "Thứ 3-5 hàng tuần lúc 19.30",
-    startDate: "1/7",
-    fee: "1200k/tháng"
-  },
+ 
   
   {
     code: "F81",
@@ -16,7 +8,7 @@ const courses = [
     target: "Học viên muốn ôn lại nền tảng từ vựng ngữ pháp cho IELTS",
     goal: "IELTS 5.5+",
     schedule: "Thứ 4-6 hàng tuần lúc 19.30",
-    startDate: "1/7",
+    startDate: "15/7",
     fee: "3000k/khóa"
   },
   {
@@ -25,7 +17,7 @@ const courses = [
     target: "Học viên đã có nền tảng cơ bản muốn làm quen với các dạng bài IELTS",
     goal: "Làm quen với các dạng bài IELTS",
     schedule: "Thứ 3-4-5 hàng tuần lúc 19.30",
-    startDate: "27/6",
+    startDate: "10/7",
     fee: "3900k/khóa"
   },
   {
@@ -34,8 +26,17 @@ const courses = [
     target: "Học viên muốn học chuyên sâu về các kỹ năng để làm bài IELTS",
     goal: "IELTS 5.5+",
     schedule: "Thứ 3456 hàng tuần lúc 19.30",
-    startDate: "1/8",
+    startDate: "10/8",
     fee: "3000k/khóa"
+  },
+   {
+    code: "Tutor Online 1-1",
+    type: "Luyện đề online cấp tốc 1-1",
+    target: "Học viên sắp thi IELTS",
+    goal: "IELTS 6.5+",
+    schedule: "linh động",
+    startDate: "linh động",
+    fee: "từ 180k/người/buổi"
   }
 ];
 
