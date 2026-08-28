@@ -341,15 +341,94 @@
     color:var(--ink-soft);
     margin-top:40px;
   }
+
+  /* ===== Password gate ===== */
+  #gate{
+    position:fixed;
+    inset:0;
+    background:var(--ink);
+    color:#FBF9F2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:999;
+    padding:20px;
+  }
+  #gate.hidden{ display:none; }
+  #content.locked{ display:none; }
+  .gate-card{
+    max-width:360px;
+    width:100%;
+    text-align:center;
+  }
+  .gate-card .eyebrow{ color:var(--amber); justify-content:center; }
+  .gate-card h1{
+    font-size:26px;
+    color:#FBF9F2;
+    margin-bottom:8px;
+  }
+  .gate-card p{
+    color:#C9D0DC;
+    font-size:14px;
+    margin-bottom:22px;
+  }
+  .gate-card input{
+    width:100%;
+    padding:12px 14px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:15px;
+    border:1px solid #4B5A72;
+    border-radius:var(--radius);
+    background:#2A3B58;
+    color:#FBF9F2;
+    text-align:center;
+    letter-spacing:.08em;
+  }
+  .gate-card input::placeholder{ color:#8592A6; }
+  .gate-card button{
+    margin-top:14px;
+    width:100%;
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    font-size:13px;
+    padding:13px;
+    background:var(--amber);
+    color:var(--ink);
+    border:none;
+    border-radius:var(--radius);
+    cursor:pointer;
+    font-weight:600;
+  }
+  .gate-card button:hover{ background:#D9A63F; }
+  .gate-error{
+    margin-top:12px;
+    font-size:12.5px;
+    color:#E39B7A;
+    font-family:'IBM Plex Mono', monospace;
+    min-height:16px;
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
+
+<div id="gate">
+  <div class="gate-card">
+    <div class="eyebrow">Restricted · Teacher Access Code Required</div>
+    <h1>Enter the password</h1>
+    <p>Ask your teacher for the code to unlock this assessment.</p>
+    <input type="password" id="gateInput" placeholder="Password" autocomplete="off">
+    <button id="gateBtn" type="button">Unlock test</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<div class="wrap locked" id="content">
 
   <div class="cover">
-    <div class="eyebrow">IELTS Foundation</div>
+     <div class="eyebrow">IELTS Foundation</div>
     <h1>HuyenIELTS | Foundation Test</h1>
-
+	
     <form id="testForm" action="https://formspree.io/f/mpwgezgk" method="POST">
       <div class="idbox">
         <div class="field">
@@ -367,7 +446,7 @@
 
           <!-- SECTION I — GRAMMAR -->
           <div class="section-tab"><span class="num">I</span><h2>Grammar</h2></div>
-          <p class="section-note">Choose the option that correctly completes each sentence. All sentences relate to towns, cities and the countryside.</p>
+          <p class="section-note">Choose the option that correctly completes each sentence. </p>
           <div id="grammarSection"></div>
 
           <!-- SECTION II — VOCABULARY -->
@@ -409,11 +488,11 @@
         <!-- SIDEBAR -->
         <div class="sidebar">
           <h3>Progress Log</h3>
-          <div class="log-row"><span>Grammar</span><span class="count" id="cGrammar">0 / 26</span></div>
+          <div class="log-row"><span>Grammar</span><span class="count" id="cGrammar">0 / 25</span></div>
           <div class="log-row"><span>Vocabulary</span><span class="count" id="cVocab">0 / 15</span></div>
           <div class="log-row"><span>Reflection</span><span class="count" id="cReflect">0 / 5</span></div>
           <div class="bar-outer"><div class="bar-inner" id="barInner"></div></div>
-          <div class="bar-label" id="barLabel">0 / 46 answered</div>
+          <div class="bar-label" id="barLabel">0 / 45 answered</div>
           <div class="stamp" id="stamp">PAPER<br>COMPLETE</div>
         </div>
       </div>
@@ -423,56 +502,90 @@
     </form>
   </div>
 
-  <footer>HuyenIELTS | Foundation Test</footer>
+ <footer>HuyenIELTS | Foundation Test</footer>
 </div>
 
 <script>
+/* ================= PASSWORD GATE ================= */
+const TEST_PASSWORD = "240586";
+const gate = document.getElementById('gate');
+const content = document.getElementById('content');
+const gateInput = document.getElementById('gateInput');
+const gateBtn = document.getElementById('gateBtn');
+const gateError = document.getElementById('gateError');
+
+function tryUnlock(){
+  if(gateInput.value.trim().toLowerCase() === TEST_PASSWORD.toLowerCase()){
+    gate.classList.add('hidden');
+    content.classList.remove('locked');
+    window.scrollTo(0,0);
+  } else {
+    gateError.textContent = "Incorrect password — try again.";
+    gateInput.value = "";
+    gateInput.focus();
+  }
+}
+gateBtn.addEventListener('click', tryUnlock);
+gateInput.addEventListener('keydown', e=>{ if(e.key === "Enter") tryUnlock(); });
+gateInput.focus();
+
 /* ================= DATA ================= */
 const grammarQs = [
   // Present Tenses
-  {t:"Present Tenses", p:"My sister ___ in a bank in the city centre.", o:["work","works","is working","worked"], a:1},
-  {t:"Present Tenses", p:"Look! The rural residents ___ a new market right now.", o:["build","built","are building","has built"], a:2},
+  {t:"", p:"My sister ___ at the same bank for nearly ten years, but she is considering changing jobs.", o:["works","has worked","has been working","is working"], a:2},
+  {t:"", p:"The number of people moving to the city ___ steadily since the government introduced new employment programmes.", o:["increases","has increased","has been increasing","is increasing"], a:2},
+
   // Past Tenses
-  {t:"Past Tenses", p:"Last year, my family ___ from the countryside to the city.", o:["move","moves","moved","was move"], a:2},
-  {t:"Past Tenses", p:"While we ___ dinner, the electricity suddenly went off.", o:["cooked","were cooking","cook","had cooked"], a:1},
+  {t:"", p:"By the time we reached the village, the last bus ___, so we had to walk the remaining three kilometres.", o:["already left","had already left","was already leaving","has already left"], a:1},
+  {t:"", p:"While the researchers ___ data from local residents, several unexpected problems began to emerge.", o:["collected","had collected","were collecting","have collected"], a:2},
+
   // Perfect Tenses
-  {t:"Perfect Tenses", p:"She has already ___ her project about traditional markets.", o:["finish","finishes","finished","finishing"], a:2},
-  {t:"Perfect Tenses", p:"By the time the tourists arrived, the local guide ___ the tour.", o:["has started","started","had started","starts"], a:2},
+  {t:"", p:"The council ___ several proposals before it finally approved the plan for the new market.", o:["has considered","had considered","was considering","considers"], a:1},
+  {t:"", p:"She ___ three different reports on rural migration this month, and she still has another one to complete.", o:["wrote","has written","had written","was writing"], a:1},
+
   // Future
-  {t:"Future", p:"I think congestion in the city ___ get worse in the next ten years.", o:["will","is","was","would"], a:0},
-  {t:"Future", p:"We ___ visit the heritage site tomorrow morning — it's already planned.", o:["will","are going to","would","had"], a:1},
-  // Modal 1 (may/might/can/could/would)
-  {t:"Modal 1", p:"It ___ rain later, so bring an umbrella just in case.", o:["must","might","should","need"], a:1},
-  {t:"Modal 1", p:"___ you help me find the traditional market, please?", o:["Must","Should","Could","Need"], a:2},
-  // Modal 2 (must/should/need)
-  {t:"Modal 2", p:"Tourists ___ respect the local culture when they visit a new place.", o:["must","can","may","would"], a:0},
-  {t:"Modal 2", p:"You ___ worry so much; the medical service here is excellent.", o:["must","don't need to","should to","need"], a:1},
-  // Articles and Determiners
-  {t:"Articles & Determiners", p:"___ eco-friendly hotel opened near ___ old traditional market.", o:["A / the","An / the","The / a","An / an"], a:1},
-  {t:"Articles & Determiners", p:"There isn't ___ stable income for many rural residents this year.", o:["many","much","a","some"], a:1},
-  // Adjectives - Adverbs
-  {t:"Adjectives / Adverbs", p:"The city grew ___ after the new tourist attraction opened.", o:["quick","quickly","quickest","more quick"], a:1},
-  {t:"Adjectives / Adverbs", p:"This is a ___ interesting article about urban lifestyle.", o:["real","really","reality","realer"], a:1},
+  {t:"", p:"By 2035, the city ___ significantly more public transport if the current development plans are implemented.", o:["will have","will have developed","has developed","is developing"], a:1},
+  {t:"", p:"We ___ the heritage site on Saturday; the tickets have already been booked and the guide has confirmed the visit.", o:["will visit","are visiting","visit","are going to have visited"], a:1},
+
+  // Modal 1
+  {t:"", p:"The road is completely empty. The residents ___ have been warned about the severe weather conditions.", o:["must","should","can","would"], a:0},
+  {t:"", p:"___ you possibly explain why the traditional market has been closed without any prior notice?", o:["Must","Could","Should","May"], a:1},
+
+  // Modal 2
+  {t:"", p:"Visitors ___ remove their shoes before entering the building, as this is an important local tradition.", o:["are supposed to","must to","should to","can to"], a:0},
+  {t:"", p:"You ___ have taken a taxi; the train was running normally and would have got you there much faster.", o:["mustn't","needn't","shouldn't","couldn't"], a:2},
+
+  // Articles & Determiners
+  {t:"", p:"After ___ unusually long discussion, the council reached ___ agreement that could affect the entire region.", o:["a / an","an / an","the / a","an / the"], a:1},
+  {t:"", p:"There are ___ opportunities for young people in the countryside, which is one reason why ___ of them move to cities.", o:["a little / much","few / many","little / much","much / few"], a:1},
+
+  // Adjectives / Adverbs
+  {t:"", p:"The government responded ___ to the sudden increase in homelessness, introducing several measures within weeks.", o:["remarkable quick","remarkably quickly","remarkably quick","remarking quickly"], a:1},
+ 
   // Comparisons
-  {t:"Comparisons", p:"Life in the city is ___ than life in the countryside.", o:["busy","busier","more busy","busiest"], a:1},
-  {t:"Comparisons", p:"The traditional market is ___ tourist attraction in the whole region.", o:["more popular","the most popular","popularer","most popular than"], a:1},
+  {t:"", p:"The cost of living in the city is considerably ___ than it was a decade ago.", o:["higher","more high","highest","the higher"], a:0},
+  {t:"", p:"Of all the heritage sites we visited, this one was by far ___.", o:["more impressive","the most impressive","most impressive","the more impressive"], a:1},
+
   // Prepositions
-  {t:"Prepositions", p:"Many rural residents moved ___ the city ___ better job opportunities.", o:["to / for","at / to","in / of","on / for"], a:0},
-  {t:"Prepositions", p:"The heritage building ___ the town centre attracts many visitors.", o:["on","in","at","to"], a:1},
+  {t:"", p:"Many young people leave rural areas ___ the hope ___ finding better-paid employment in larger cities.", o:["with / for","in / of","at / to","on / for"], a:1},
+  {t:"", p:"The new shopping centre was built ___ the outskirts of the city, ___ close proximity to several residential areas.", o:["at / on","in / at","on / in","by / for"], a:2},
+
   // Conditionals
-  {t:"Conditionals", p:"If the government ___ more eco-friendly transport, congestion would decrease.", o:["builds","built","build","will build"], a:1},
-  {t:"Conditionals", p:"If tourists don't respect local culture, they ___ damage community relations.", o:["will","would","had","were"], a:0},
+  {t:"", p:"If the local authorities ___ action earlier, the damage caused by the flooding could have been significantly reduced.", o:["had taken","would take","have taken","took"], a:0},
+  {t:"", p:"If more people ___ from home, there would probably be less traffic during rush hour.", o:["work","worked","had worked","would work"], a:1},
+
   // Relative Clauses
-  {t:"Relative Clauses", p:"The traditional market, ___ is over 100 years old, attracts many tourists.", o:["who","which","where","whose"], a:1},
-  {t:"Relative Clauses", p:"This is the village ___ residents rely mainly on farming for income.", o:["which","who","where","whom"], a:2},
+  {t:"", p:"The village has attracted hundreds of visitors, many of ___ are interested in its traditional architecture.", o:["who","which","whom","whose"], a:2},
+  {t:"", p:"The company ___ headquarters are located in the city has recently invested heavily in rural development.", o:["which","who","whose","where"], a:2},
+
   // Passive
-  {t:"Passive", p:"The old heritage site ___ by the local council last year.", o:["restored","was restored","has restore","restores"], a:1},
-  {t:"Passive", p:"A new medical service is currently ___ in the rural area.", o:["being built","build","built already","builds"], a:0},
+  {t:"", p:"The historic buildings ___ carefully restored over the past five years to preserve their original character.", o:["have been","have been being","were being","are"], a:0},
+  {t:"", p:"By the end of next year, a completely new transport network ___ across the region.", o:["will construct","will have been constructed","has been constructed","is constructing"], a:1},
 ];
 
 const vocabQs = [
   {p:"Many young people leave their villages because farming doesn't provide a ___.", a:"stable income"},
-  {p:"The old castle is a famous ___ that brings thousands of visitors every summer.", a:"tourist attraction"},
+  {p:"The old castle is a famous ___ that brings thousands of visitors from other countries every summer.", a:"tourist attraction"},
   {p:"City centres often suffer from traffic ___ during rush hour.", a:"congestion"},
   {p:"After the flood, local shops reported serious ___ and had to close temporarily.", a:"business loss"},
   {p:"The government invested in solar panels to make the town more ___.", a:"eco-friendly"},
@@ -481,14 +594,14 @@ const vocabQs = [
   {p:"The ___ in this neighbourhood has dropped since new street lights were installed.", a:"crime rate"},
   {p:"Visiting the ___ is the best way to buy fresh, local produce.", a:"traditional market"},
   {p:"The storm caused millions of pounds in ___ to the coastal town.", a:"financial damage"},
-  {p:"Losing a job can seriously affect a person's ___.", a:"mental health"},
+  {p:"Losing a job or having relationship problems can seriously affect a person's ___.", a:"mental health"},
   {p:"Many ___ struggle to find good schools and hospitals nearby.", a:"rural residents"},
   {p:"The museum works hard to protect the region's cultural ___.", a:"heritage"},
   {p:"Festivals help visitors understand ___ and local traditions.", a:"local culture"},
-  {p:"The nearest ___ is over an hour away by car.", a:"medical service"},
+  {p:"The nearest ___ where you can check your glucose level is over an hour away by car.", a:"medical service"},
 ];
 
-const wordBank = ["rural residents","crime rate","local culture","stable income","tourist attraction","traditional market","financial damage","business loss","diseases","eco-friendly","heritage","congestion","urban lifestyle","mental health","medical service"];
+const wordBank = ["rural residents", "balanced diet", "livelihood","access to education","crime rate","local culture","stable income","tourist attraction","traditional market","financial damage","business loss","diseases","eco-friendly","heritage","congestion","urban lifestyle","mental health","medical service"];
 
 const reflectQs = [
  "Where do you want to travel to? Why?",
@@ -500,7 +613,6 @@ const reflectQs = [
 ];
 
 const letters = ["A","B","C","D"];
-
 /* ================= RENDER ================= */
 const grammarEl = document.getElementById("grammarSection");
 grammarQs.forEach((q, i) => {
@@ -579,14 +691,14 @@ function updateProgress(){
   const gDone = grammarQs.filter((_,i)=>document.querySelector(`input[name="g${i}"]:checked`)).length;
   const vDone = Array.from(document.querySelectorAll('#vocabSection select')).filter(s=>s.value).length;
   const rDone = Array.from(document.querySelectorAll('#reflectSection textarea')).filter(t=>t.value.trim().length>0).length;
-  document.getElementById('cGrammar').textContent = gDone + " / 26";
+  document.getElementById('cGrammar').textContent = gDone + " / 25";
   document.getElementById('cVocab').textContent = vDone + " / 15";
   document.getElementById('cReflect').textContent = rDone + " / 5";
   const total = gDone+vDone+rDone;
-  const pct = Math.round((total/46)*100);
+  const pct = Math.round((total/45)*100);
   document.getElementById('barInner').style.width = pct + "%";
-  document.getElementById('barLabel').textContent = total + " / 46 answered";
-  document.getElementById('stamp').classList.toggle('show', total===46);
+  document.getElementById('barLabel').textContent = total + " / 45 answered";
+  document.getElementById('stamp').classList.toggle('show', total===45);
 }
 
 // compute auto-score right before submit
@@ -598,10 +710,10 @@ document.getElementById('testForm').addEventListener('submit', function(){
   });
   vocabQs.forEach((q,i)=>{
     const sel = document.querySelector(`select[name="v${i}"]`);
-    if(sel && sel.value === q.a) vCorrect++;
+    if(sel && sel.value === q.a) vCorrect+=2;
   });
   document.getElementById('autoScore').value =
-    `Grammar: ${gCorrect}/26 | Vocabulary: ${vCorrect}/15 | Total: ${gCorrect+vCorrect}/41`;
+    `Grammar: ${gCorrect}/2 | Vocabulary: ${vCorrect}/30 | Total: ${gCorrect+vCorrect}`;
 });
 
 updateProgress();
