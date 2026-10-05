@@ -8,25 +8,25 @@ const courses = [
     target: "Học viên muốn ôn lại nền tảng từ vựng ngữ pháp cho IELTS",
     goal: "IELTS 5.5+",
     schedule: "Thứ 4-6 hàng tuần lúc 19.30",
-    startDate: "20/9",
+    startDate: "20/10",
     fee: "3000k/khóa"
   },
   {
-    code: "P80",
+    code: "P82",
     type: "Pre-IELTS W-R-S",
     target: "Học viên đã có nền tảng cơ bản muốn làm quen với các dạng bài IELTS",
     goal: "Làm quen với các dạng bài IELTS",
     schedule: "Thứ 246 hàng tuần lúc 19.30",
-    startDate: "7/9",
+    startDate: "25/10",
     fee: "3900k/khóa"
   },
   {
-    code: "I76",
+    code: "I80",
     type: "Intensive 4 kỹ năng",
     target: "Học viên muốn học chuyên sâu về các kỹ năng để làm bài IELTS",
     goal: "IELTS 5.5+",
     schedule: "Thứ 3456 hàng tuần lúc 19.30",
-    startDate: "8/9",
+    startDate: "1/11",
     fee: "3000k/khóa"
   },
    {
@@ -36,7 +36,7 @@ const courses = [
     goal: "IELTS 6.5+",
     schedule: "linh động",
     startDate: "linh động",
-    fee: "từ 180k/người/buổi"
+    fee: "từ 220k/người/buổi"
   }
 ];
 
