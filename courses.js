@@ -3,30 +3,30 @@ const courses = [
  
   
   {
-    code: "F83",
+    code: "F84",
     type: "Foundation",
     target: "Học viên muốn ôn lại nền tảng từ vựng ngữ pháp cho IELTS",
     goal: "IELTS 5.5+",
-    schedule: "Thứ 4-6 hàng tuần lúc 19.30",
-    startDate: "20/10",
+    schedule: "Thứ 3-5 hàng tuần lúc 19.30",
+    startDate: "20/11",
     fee: "3000k/khóa"
   },
   {
-    code: "P82",
+    code: "P83",
     type: "Pre-IELTS W-R-S",
     target: "Học viên đã có nền tảng cơ bản muốn làm quen với các dạng bài IELTS",
     goal: "Làm quen với các dạng bài IELTS",
     schedule: "Thứ 246 hàng tuần lúc 19.30",
-    startDate: "25/10",
+    startDate: "2/12",
     fee: "3900k/khóa"
   },
   {
-    code: "I80",
+    code: "I82",
     type: "Intensive 4 kỹ năng",
     target: "Học viên muốn học chuyên sâu về các kỹ năng để làm bài IELTS",
     goal: "IELTS 5.5+",
     schedule: "Thứ 3456 hàng tuần lúc 19.30",
-    startDate: "1/11",
+    startDate: "1/12",
     fee: "3000k/khóa"
   },
    {
