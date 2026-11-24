@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS Writing Task 2 Statistics & Essay Studio</title>
+    <title>Thống Kê IELTS Writing Task 2 & Studio Bài Mẫu</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -63,16 +63,16 @@
                 </div>
                 <div>
                     <h1 class="font-bold text-base leading-tight tracking-tight text-white flex items-center gap-2">
-                        IELTS Task 2 Tracker
-                        <span id="dataLoadedBadge" class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Auto Ready</span>
+                        IELTS Task 2 - Tracker 2026
+                        <span id="dataLoadedBadge" class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Sẵn sàng</span>
                     </h1>
-                    <p class="text-[11px] text-slate-400 hidden sm:block">Interactive Exam Frequency & Essay Studio</p>
+                    <p class="text-[11px] text-slate-400 hidden sm:block">Tổng hợp & Phân tích đề thi thật IELTS Writing Task 2</p>
                 </div>
             </div>
 
             <!-- Top Action Controls -->
             <div class="flex items-center space-x-2.5 overflow-x-auto py-1">
-                <!-- Sheet Switcher (Shown when excel workbook has multiple sheets) -->
+                <!-- Sheet Switcher -->
                 <div id="sheetSelectContainer" class="hidden flex items-center gap-1.5 bg-slate-800 px-2.5 py-1.5 rounded-lg border border-slate-700">
                     <i data-lucide="layers" class="w-3.5 h-3.5 text-slate-400"></i>
                     <select id="sheetSelect" onchange="changeSheet()" class="bg-transparent text-xs text-slate-200 outline-none cursor-pointer pr-1">
@@ -83,13 +83,13 @@
                 <!-- Load Local Demo Button -->
                 <button onclick="loadSampleData()" class="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg border border-slate-700 transition flex items-center gap-1.5 shrink-0">
                     <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
-                    <span class="hidden md:inline">Demo Data</span>
+                    <span class="hidden md:inline">Dữ liệu Demo</span>
                 </button>
 
                 <!-- Excel File Loader Button -->
                 <label for="excelFileInput" class="cursor-pointer text-xs px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg shadow-sm transition flex items-center gap-1.5 shrink-0">
                     <i data-lucide="file-up" class="w-3.5 h-3.5"></i>
-                    <span>Load Excel Sheet</span>
+                    <span>Tải file Excel</span>
                 </label>
                 <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileSelect(event)">
             </div>
@@ -99,81 +99,108 @@
     <!-- Main Workspace Container -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-        <!-- Local Protocol Notice Banner (shown when opened via file://) -->
+        <!-- Local Protocol Notice Banner -->
         <div id="fileProtocolBanner" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-900 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-sm">
             <div class="flex items-start gap-2.5">
                 <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
                 <div>
-                    <strong class="font-semibold text-amber-950">Local File Mode Detected (<code class="bg-amber-100 px-1 py-0.5 rounded text-[11px]">file://</code>)</strong>
-                    <p class="text-amber-800 mt-0.5">Browsers block automatic background loading (<code class="bg-amber-100 px-1 py-0.5 rounded text-[11px]">fetch</code>) of local Excel files due to security policies. Click <strong>"Select w2.xlsx"</strong> to load your file directly, or run a local web server (<code class="bg-amber-100 px-1 py-0.5 rounded text-[11px]">npx serve</code> or <code class="bg-amber-100 px-1 py-0.5 rounded text-[11px]">python -m http.server</code>).</p>
+                    <strong class="font-semibold text-amber-950">Đang mở trang qua giao thức Local File (<code class="bg-amber-100 px-1 py-0.5 rounded text-[11px]">file://</code>)</strong>
+                    <p class="text-amber-800 mt-0.5">Trình duyệt chặn tự động tải file ngầm (<code class="bg-amber-100 px-1 py-0.5 rounded text-[11px]">fetch</code>) từ ổ đĩa vì chính sách bảo mật. Hãy bấm <strong>"Chọn file w2.xlsx"</strong> bên cạnh để tải file trực tiếp, hoặc khởi chạy web server cục bộ (<code class="bg-amber-100 px-1 py-0.5 rounded text-[11px]">npx serve</code> hoặc <code class="bg-amber-100 px-1 py-0.5 rounded text-[11px]">python -m http.server</code>).</p>
                 </div>
             </div>
             <label for="excelFileInput" class="cursor-pointer text-xs px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg shadow-sm transition flex items-center gap-1.5 shrink-0">
                 <i data-lucide="file-up" class="w-4 h-4"></i>
-                <span>Select w2.xlsx</span>
+                <span>Chọn file w2.xlsx</span>
             </label>
         </div>
 
-        <!-- KPI Metric Cards -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- KPI Metric Cards (5 Columns) -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <!-- KPI 1: Số đề thống kê -->
             <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Unique Prompts</p>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Số đề thống kê</p>
                     <p id="kpiTotalPrompts" class="text-2xl font-bold text-slate-900 mt-0.5">0</p>
-                    <p id="kpiPromptsSub" class="text-[11px] text-slate-400 mt-0.5">Distinct exam topics</p>
+                    <p id="kpiPromptsSub" class="text-[11px] text-slate-400 mt-0.5">0 chủ đề khác nhau</p>
                 </div>
                 <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl">
                     <i data-lucide="file-text" class="w-5 h-5"></i>
                 </div>
             </div>
 
+            <!-- KPI 2: Tổng lượt xuất hiện -->
             <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Occurrences</p>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Tổng lượt xuất hiện</p>
                     <p id="kpiTotalOccurrences" class="text-2xl font-bold text-indigo-600 mt-0.5">0</p>
-                    <p id="kpiOccurrencesSub" class="text-[11px] text-slate-400 mt-0.5">Sum of exam days</p>
+                    <p id="kpiOccurrencesSub" class="text-[11px] text-slate-400 mt-0.5">Tổng số ngày thi ghi nhận</p>
                 </div>
                 <div class="p-3 bg-amber-50 text-amber-600 rounded-xl">
                     <i data-lucide="repeat" class="w-5 h-5"></i>
                 </div>
             </div>
 
+            <!-- KPI 3: Dạng đề phổ biến nhất -->
             <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Top Essay Type</p>
-                    <p id="kpiTopType" class="text-base font-bold text-slate-900 mt-0.5 truncate max-w-[140px]">-</p>
-                    <p id="kpiTopTypeSub" class="text-[11px] text-slate-400 mt-0.5">Most tested format</p>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Dạng đề phổ biến nhất</p>
+                    <p id="kpiTopType" class="text-base font-bold text-slate-900 mt-0.5 truncate max-w-[130px]">-</p>
+                    <p id="kpiTopTypeSub" class="text-[11px] text-slate-400 mt-0.5">0 đề (0%)</p>
                 </div>
                 <div class="p-3 bg-purple-50 text-purple-600 rounded-xl">
                     <i data-lucide="pie-chart" class="w-5 h-5"></i>
                 </div>
             </div>
 
+            <!-- KPI 4: Chủ đề phổ biến nhất (Accurate calculation) -->
             <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Sample Essay Coverage</p>
-                    <p id="kpiEssayCount" class="text-2xl font-bold text-emerald-600 mt-0.5">0 / 0</p>
-                    <p id="kpiEssayPercent" class="text-[11px] text-emerald-600 font-medium mt-0.5">0% written</p>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Chủ đề xuất hiện nhiều nhất</p>
+                    <p id="kpiTopTopicName" class="text-base font-bold text-slate-900 mt-0.5 truncate max-w-[130px]">-</p>
+                    <p id="kpiTopTopicSub" class="text-[11px] text-slate-400 mt-0.5">0 lượt ngày thi</p>
                 </div>
-                <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
-                    <i data-lucide="pen-tool" class="w-5 h-5"></i>
+                <div class="p-3 bg-rose-50 text-rose-600 rounded-xl">
+                    <i data-lucide="award" class="w-5 h-5"></i>
+                </div>
+            </div>
+
+            <!-- KPI 5: Tiến độ bài mẫu -->
+            <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm flex items-center justify-between">
+                <div class="w-full">
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Tiến độ bài mẫu</p>
+                    <div class="flex items-baseline justify-between mt-0.5">
+                        <p id="kpiEssayCount" class="text-xl font-bold text-emerald-600">0 / 0</p>
+                        <span id="kpiEssayPercent" class="text-xs font-bold text-emerald-600">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-1.5 mt-2 overflow-hidden">
+                        <div id="kpiProgressBar" class="bg-emerald-500 h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Dynamic Analytics Charts -->
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Topic Chart with Matching Distinct Palette (2 cols) -->
+            <!-- Topic Chart with Metric Toggle (2 cols) -->
             <div class="lg:col-span-2 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between">
-                <div class="flex items-center justify-between mb-3">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                     <div>
                         <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
                             <i data-lucide="bar-chart-3" class="w-5 h-5 text-indigo-600"></i>
-                            Topic Distribution & Occurrences (Chủ Đề)
+                            Phân Bố Theo Chủ Đề
                         </h2>
-                        <p class="text-xs text-slate-500">Color-coded topics. Click any bar to filter the prompt list.</p>
+                        <p class="text-xs text-slate-500">Màu sắc phân biệt từng chủ đề. Nhấp vào cột để lọc danh sách đề thi.</p>
                     </div>
-                    <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md font-medium" id="topicCountBadge">0 Topics</span>
+                    
+                    <!-- Topic Metric Toggle Controls -->
+                    <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg self-start sm:self-auto">
+                        <button id="btnMetricOccurrences" onclick="setTopicMetric('occurrences')" class="text-[11px] font-semibold px-2.5 py-1 rounded-md bg-white text-indigo-700 shadow-sm transition">
+                            Theo lượt ngày thi
+                        </button>
+                        <button id="btnMetricCount" onclick="setTopicMetric('count')" class="text-[11px] font-medium px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition">
+                            Theo số lượng đề
+                        </button>
+                    </div>
                 </div>
                 <div class="relative h-64 w-full">
                     <canvas id="topicChart"></canvas>
@@ -186,9 +213,9 @@
                     <div>
                         <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
                             <i data-lucide="pie-chart" class="w-5 h-5 text-indigo-600"></i>
-                            Essay Types (Dạng Đề)
+                            Tỷ Lệ Dạng Đề
                         </h2>
-                        <p class="text-xs text-slate-500">Click a slice to isolate that question type</p>
+                        <p class="text-xs text-slate-500">Nhấp vào từng phần biểu đồ để lọc theo dạng đề</p>
                     </div>
                 </div>
                 <div class="relative h-64 w-full flex items-center justify-center">
@@ -201,19 +228,19 @@
         <section class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="flex items-center gap-2">
-                    <h3 class="font-bold text-slate-800 text-lg">Exam Prompts & Sample Essay Studio</h3>
-                    <span id="filteredCountBadge" class="text-xs bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full font-semibold">0 items</span>
+                    <h3 class="font-bold text-slate-800 text-lg">Danh Sách Đề Thi & Studio Bài Mẫu</h3>
+                    <span id="filteredCountBadge" class="text-xs bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full font-semibold">0 đề</span>
                 </div>
 
                 <!-- Export Options -->
                 <div class="flex items-center gap-2 flex-wrap">
                     <button onclick="exportToExcel()" class="text-xs px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg transition flex items-center gap-1.5 shadow-sm">
                         <i data-lucide="download" class="w-4 h-4"></i>
-                        <span>Export Excel (+ Essays)</span>
+                        <span>Xuất Excel (+ Bài Mẫu)</span>
                     </button>
                     <button onclick="exportToJSON()" class="text-xs px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition flex items-center gap-1.5">
                         <i data-lucide="file-code" class="w-3.5 h-3.5"></i>
-                        <span>Backup JSON</span>
+                        <span>Sao Lưu JSON</span>
                     </button>
                 </div>
             </div>
@@ -223,7 +250,7 @@
                 <!-- Search Box -->
                 <div class="lg:col-span-2 relative">
                     <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
-                    <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Search prompts, keywords, dates..." class="w-full pl-9 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
+                    <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Tìm theo tên đề, nội dung đề, nguồn thi, ngày thi..." class="w-full pl-9 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
                     <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600">
                         <i data-lucide="x" class="w-4 h-4"></i>
                     </button>
@@ -232,33 +259,33 @@
                 <!-- Filter: Topic -->
                 <div>
                     <select id="topicFilter" onchange="applyFilters()" class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <option value="ALL">All Topics (Tất cả chủ đề)</option>
+                        <option value="ALL">Tất cả chủ đề</option>
                     </select>
                 </div>
 
                 <!-- Filter: Essay Type -->
                 <div>
                     <select id="typeFilter" onchange="applyFilters()" class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <option value="ALL">All Essay Types (Dạng đề)</option>
+                        <option value="ALL">Tất cả dạng đề</option>
                     </select>
                 </div>
 
                 <!-- Filter: Status -->
                 <div>
                     <select id="statusFilter" onchange="applyFilters()" class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <option value="ALL">All Sample Statuses</option>
-                        <option value="HAS_ESSAY">Has Sample Essay</option>
-                        <option value="NEEDS_ESSAY">Needs Sample Essay</option>
-                        <option value="FREQ_2">Repeated (≥ 2 days)</option>
+                        <option value="ALL">Tất cả trạng thái bài mẫu</option>
+                        <option value="HAS_ESSAY">Đã có bài mẫu</option>
+                        <option value="NEEDS_ESSAY">Chưa có bài mẫu</option>
+                        <option value="FREQ_2">Đề lặp lại (≥ 2 ngày thi)</option>
                     </select>
                 </div>
             </div>
 
             <!-- Active Filters Pill Container -->
             <div id="activeFilterTags" class="hidden flex items-center gap-2 pt-1 text-xs text-slate-500">
-                <span>Active filters:</span>
+                <span>Bộ lọc đang áp dụng:</span>
                 <div id="filterTagsList" class="flex flex-wrap items-center gap-1.5"></div>
-                <button onclick="resetAllFilters()" class="text-indigo-600 hover:underline font-medium text-xs ml-2">Reset all</button>
+                <button onclick="resetAllFilters()" class="text-indigo-600 hover:underline font-medium text-xs ml-2">Xóa tất cả bộ lọc</button>
             </div>
         </section>
 
@@ -268,13 +295,13 @@
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-slate-50/80 border-b border-slate-200 text-slate-600 text-[11px] font-semibold uppercase tracking-wider">
-                            <th class="py-3.5 px-4 text-center w-12">#</th>
-                            <th class="py-3.5 px-4 min-w-[300px]">IELTS Writing Prompt & Short Title</th>
-                            <th class="py-3.5 px-3">Type (Dạng đề)</th>
-                            <th class="py-3.5 px-3">Distinct Topic (Chủ đề)</th>
-                            <th class="py-3.5 px-3 text-center">Days</th>
-                            <th class="py-3.5 px-3">Exam Date Range</th>
-                            <th class="py-3.5 px-4 text-right min-w-[180px]">Sample Essay (Bài mẫu)</th>
+                            <th class="py-3.5 px-4 text-center w-12">STT</th>
+                            <th class="py-3.5 px-4 min-w-[300px]">Tên Đề & Nội Dung Đầy Đủ</th>
+                            <th class="py-3.5 px-3">Dạng Đề</th>
+                            <th class="py-3.5 px-3">Chủ Đề</th>
+                            <th class="py-3.5 px-3 text-center">Số Lượt</th>
+                            <th class="py-3.5 px-3">Thời Gian & Nguồn Thi</th>
+                            <th class="py-3.5 px-4 text-right min-w-[180px]">Bài Mẫu (Sample Essay)</th>
                         </tr>
                     </thead>
                     <tbody id="promptTableBody" class="divide-y divide-slate-100 text-xs">
@@ -288,9 +315,9 @@
                 <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
                     <i data-lucide="search-x" class="w-6 h-6"></i>
                 </div>
-                <h4 class="font-semibold text-slate-700 text-sm">No matching prompts found</h4>
-                <p class="text-xs text-slate-500 mt-1">Try resetting your search query or adjusting your filters.</p>
-                <button onclick="resetAllFilters()" class="mt-3 text-xs bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-lg font-medium hover:bg-indigo-100 transition">Reset Filters</button>
+                <h4 class="font-semibold text-slate-700 text-sm">Không tìm thấy đề thi phù hợp</h4>
+                <p class="text-xs text-slate-500 mt-1">Thử thay đổi từ khóa tìm kiếm hoặc điều chỉnh bộ lọc của bạn.</p>
+                <button onclick="resetAllFilters()" class="mt-3 text-xs bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-lg font-medium hover:bg-indigo-100 transition">Đặt lại bộ lọc</button>
             </div>
         </section>
 
@@ -299,7 +326,7 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 mt-auto py-4">
         <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-400">
-            IELTS Writing Task 2 Interactive Analytics & Essay Studio • Data auto-persisted in local storage
+            Tổng hợp & Phân tích Đề thi IELTS Writing Task 2 • Dữ liệu bài mẫu tự động lưu trên trình duyệt của bạn
         </div>
     </footer>
 
@@ -314,7 +341,7 @@
                 <div class="p-5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
                     <div class="flex items-center space-x-2">
                         <i data-lucide="pen-tool" class="w-5 h-5 text-indigo-400"></i>
-                        <h3 class="font-bold text-base text-white">Sample Essay Studio</h3>
+                        <h3 class="font-bold text-base text-white">Studio Bài Mẫu IELTS Task 2</h3>
                     </div>
                     <button onclick="closeEssayModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
                         <i data-lucide="x" class="w-5 h-5"></i>
@@ -326,52 +353,52 @@
                     <!-- Prompt Context Card -->
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2">
                         <div class="flex items-center justify-between gap-2 flex-wrap">
-                            <span id="modalTopicBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold">Topic</span>
-                            <span id="modalTypeBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-200 text-slate-700">Type</span>
+                            <span id="modalTopicBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold">Chủ đề</span>
+                            <span id="modalTypeBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-200 text-slate-700">Dạng đề</span>
                         </div>
-                        <h4 id="modalShortTitle" class="font-bold text-slate-900 text-base">Prompt Title</h4>
+                        <h4 id="modalShortTitle" class="font-bold text-slate-900 text-base">Tên ngắn đề thi</h4>
                         <div class="bg-white border border-slate-200 rounded-lg p-3 text-xs text-slate-700 font-serif leading-relaxed" id="modalFullPrompt">
-                            Full prompt content...
+                            Nội dung đề thi đầy đủ...
                         </div>
                         <button onclick="copyPromptToClipboard()" class="text-[11px] text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 pt-1">
-                            <i data-lucide="copy" class="w-3 h-3"></i> Copy Prompt Text
+                            <i data-lucide="copy" class="w-3 h-3"></i> Sao chép nội dung đề thi
                         </button>
                     </div>
 
                     <!-- Editor Header & Live Stats -->
                     <div class="flex items-center justify-between">
                         <label for="essayTextArea" class="font-bold text-slate-800 text-sm flex items-center gap-2">
-                            Write / Edit Sample Essay (Target ≥ 250 words)
+                            Soạn thảo / Chỉnh sửa bài mẫu (Mục tiêu ≥ 250 từ)
                         </label>
                         <div class="flex items-center space-x-3 text-xs">
-                            <span id="wordCountBadge" class="px-2.5 py-1 rounded-md font-semibold bg-slate-100 text-slate-600 border border-slate-200">0 words</span>
+                            <span id="wordCountBadge" class="px-2.5 py-1 rounded-md font-semibold bg-slate-100 text-slate-600 border border-slate-200">0 từ</span>
                         </div>
                     </div>
 
                     <!-- Essay Textarea -->
                     <div class="relative">
-                        <textarea id="essayTextArea" oninput="handleEssayInput()" placeholder="Write your Band 8/9 model response here..." class="w-full h-80 p-4 font-serif text-sm text-slate-800 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none leading-relaxed resize-y shadow-inner"></textarea>
+                        <textarea id="essayTextArea" oninput="handleEssayInput()" placeholder="Nhập bài viết mẫu Band 8/9 của bạn tại đây..." class="w-full h-80 p-4 font-serif text-sm text-slate-800 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none leading-relaxed resize-y shadow-inner"></textarea>
                     </div>
 
                     <!-- IELTS Writing Criterion Checklist -->
                     <div class="border-t border-slate-200 pt-4 space-y-2">
-                        <p class="text-xs font-semibold text-slate-700 uppercase tracking-wider">IELTS Assessment Criteria Checklist</p>
+                        <p class="text-xs font-semibold text-slate-700 uppercase tracking-wider">Checklist tiêu chí chấm IELTS Writing</p>
                         <div class="grid grid-cols-2 gap-2 text-xs text-slate-600">
                             <div class="flex items-center gap-1.5 bg-slate-50 p-2 rounded-lg border border-slate-100">
                                 <i data-lucide="check-square" class="w-4 h-4 text-emerald-500"></i>
-                                <span><strong>TR:</strong> Fully addresses all parts</span>
+                                <span><strong>TR:</strong> Trả lời đầy đủ các yêu cầu đề bài</span>
                             </div>
                             <div class="flex items-center gap-1.5 bg-slate-50 p-2 rounded-lg border border-slate-100">
                                 <i data-lucide="check-square" class="w-4 h-4 text-emerald-500"></i>
-                                <span><strong>CC:</strong> Clear logical paragraphing</span>
+                                <span><strong>CC:</strong> Mạch lạc, liên kết & chia đoạn rõ</span>
                             </div>
                             <div class="flex items-center gap-1.5 bg-slate-50 p-2 rounded-lg border border-slate-100">
                                 <i data-lucide="check-square" class="w-4 h-4 text-emerald-500"></i>
-                                <span><strong>LR:</strong> Topic-specific collocations</span>
+                                <span><strong>LR:</strong> Từ vựng chuẩn chủ đề, collocations</span>
                             </div>
                             <div class="flex items-center gap-1.5 bg-slate-50 p-2 rounded-lg border border-slate-100">
                                 <i data-lucide="check-square" class="w-4 h-4 text-emerald-500"></i>
-                                <span><strong>GRA:</strong> Complex & accurate grammar</span>
+                                <span><strong>GRA:</strong> Cấu trúc ngữ pháp đa dạng & chính xác</span>
                             </div>
                         </div>
                     </div>
@@ -379,11 +406,11 @@
 
                 <!-- Modal Footer -->
                 <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
-                    <button onclick="clearCurrentEssay()" class="text-xs px-3 py-2 text-rose-600 hover:bg-rose-50 rounded-lg transition font-medium">Clear Text</button>
+                    <button onclick="clearCurrentEssay()" class="text-xs px-3 py-2 text-rose-600 hover:bg-rose-50 rounded-lg transition font-medium">Xóa văn bản</button>
                     <div class="flex items-center space-x-2">
-                        <button onclick="closeEssayModal()" class="text-xs px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-lg transition">Cancel</button>
+                        <button onclick="closeEssayModal()" class="text-xs px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-lg transition">Hủy</button>
                         <button onclick="saveCurrentEssay()" class="text-xs px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg transition shadow-sm flex items-center gap-1.5">
-                            <i data-lucide="save" class="w-4 h-4"></i> Save Sample Essay
+                            <i data-lucide="save" class="w-4 h-4"></i> Lưu Bài Mẫu
                         </button>
                     </div>
                 </div>
@@ -394,7 +421,7 @@
     <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
         <i data-lucide="info" class="w-4 h-4 text-indigo-400" id="toastIcon"></i>
-        <span id="toastMessage">Action completed successfully</span>
+        <span id="toastMessage">Thao tác thành công</span>
     </div>
 
     <!-- Application Script Logic -->
@@ -405,6 +432,7 @@
         let filteredPrompts = [];
         let essayStore = {}; // Loaded from localStorage
         let currentActivePromptId = null;
+        let activeTopicMetric = 'occurrences'; // 'occurrences' | 'count'
 
         // Chart instances
         let topicChartInstance = null;
@@ -460,7 +488,6 @@
                 }
             }
             
-            // Deterministic hash based on string character sum
             let hash = 0;
             for (let i = 0; i < topicName.length; i++) {
                 hash = topicName.charCodeAt(i) + ((hash << 5) - hash);
@@ -482,74 +509,74 @@
         const DEMO_PROMPTS = [
             {
                 id: 'p1',
-                shortTitle: 'University education vs Practical skills',
+                shortTitle: 'Đại học vs Kỹ năng thực tế',
                 fullPrompt: 'Some people think that universities should provide graduates with the knowledge and skills needed in the workplace. Others think that the true function of a university should be to give access to knowledge for its own sake, regardless of whether the course is useful to an employer. Discuss both views and give your opinion.',
                 essayType: 'Discussion',
                 topic: 'Giáo dục & Ngôn ngữ',
                 occurrences: 7,
                 recordedCount: 7,
                 dateRange: '2024-01-13 → 2026-02-28',
-                sources: 'BC & IDP - Hanoi, HCMC',
+                sources: 'BC & IDP - Hà Nội, TP.HCM',
                 altPhrasings: 'Universities purpose: employment vs pure academic knowledge'
             },
             {
                 id: 'p2',
-                shortTitle: 'Adult children living with parents',
+                shortTitle: 'Con cái trưởng thành sống cùng cha mẹ',
                 fullPrompt: 'In many countries, more and more adult children are choosing to live with their parents after graduating or getting a job. Is this a positive or negative development?',
                 essayType: 'Opinion',
                 topic: 'Gia đình & Thế hệ',
                 occurrences: 5,
                 recordedCount: 5,
                 dateRange: '2024-03-09 → 2026-01-20',
-                sources: 'IDP Vietnam, BC Global',
+                sources: 'IDP Việt Nam, BC Global',
                 altPhrasings: 'Young adults remaining in family homes'
             },
             {
                 id: 'p3',
-                shortTitle: 'Government investment in public transport vs roads',
+                shortTitle: 'Đầu tư phương tiện công cộng vs Đường bộ',
                 fullPrompt: 'Governments should spend more money on expanding public transportation networks such as railways and buses rather than building new roads for private cars. To what extent do you agree or disagree?',
                 essayType: 'Opinion',
                 topic: 'Môi trường & Giao thông',
                 occurrences: 4,
                 recordedCount: 4,
                 dateRange: '2024-05-18 → 2025-11-15',
-                sources: 'BC Danang, IDP Saigon',
+                sources: 'BC Đà Nẵng, IDP Sài Gòn',
                 altPhrasings: 'Public transport vs highway funding'
             },
             {
                 id: 'p4',
-                shortTitle: 'Loss of local traditional culture due to technology',
+                shortTitle: 'Mai một văn hóa truyền thống do công nghệ',
                 fullPrompt: 'Technological developments have led to the decline of traditional cultures in modern societies. What problems does this cause? What measures can be taken to preserve traditional cultures?',
                 essayType: 'Problem & Solution',
                 topic: 'Công nghệ & Truyền thông',
                 occurrences: 3,
                 recordedCount: 3,
                 dateRange: '2024-02-24 → 2025-08-10',
-                sources: 'IDP Online & Paper',
+                sources: 'IDP Máy tính & Giấy',
                 altPhrasings: 'Modern technology eroding cultural identity'
             },
             {
                 id: 'p5',
-                shortTitle: 'Fast food consumption and public health',
+                shortTitle: 'Tiêu thụ đồ ăn nhanh & Sức khỏe cộng đồng',
                 fullPrompt: 'In many countries, fast food is becoming cheaper and more accessible while health problems related to diet are rising. Why is this happening? What can be done to encourage healthier eating habits?',
                 essayType: 'Direct Questions',
                 topic: 'Sức khỏe & Đời sống',
                 occurrences: 3,
                 recordedCount: 3,
                 dateRange: '2024-06-01 → 2026-02-14',
-                sources: 'BC Australia, IDP VN',
+                sources: 'BC Úc, IDP VN',
                 altPhrasings: 'Junk food accessibility and lifestyle diseases'
             },
             {
                 id: 'p6',
-                shortTitle: 'Remote working impact on cities',
+                shortTitle: 'Làm việc từ xa & Tác động đến đô thị',
                 fullPrompt: 'More people now work from home using digital technology. What are the advantages and disadvantages of this trend for workers and urban communities?',
                 essayType: 'Advantages & Disadvantages',
                 topic: 'Công việc & Kinh tế',
                 occurrences: 2,
                 recordedCount: 2,
                 dateRange: '2024-09-12 → 2025-12-04',
-                sources: 'IDP Computer-based',
+                sources: 'IDP Máy tính',
                 altPhrasings: 'Teleworking benefits and drawbacks for cities'
             }
         ];
@@ -566,10 +593,10 @@
 
             if (isFileProtocol) {
                 if (banner) banner.classList.remove('hidden');
-                document.getElementById('dataLoadedBadge').textContent = 'Local File Mode';
+                document.getElementById('dataLoadedBadge').textContent = 'Chế độ file cục bộ';
                 document.getElementById('dataLoadedBadge').className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30';
                 loadSampleData();
-                showToast("Local file protocol detected. Select w2.xlsx using the button above.", "warning");
+                showToast("Đang ở giao thức file cục bộ. Chọn w2.xlsx để tải dữ liệu của bạn.", "warning");
             } else {
                 const defaultExcelPath = './w2.xlsx';
                 loadExcelFromUrl(defaultExcelPath).catch(() => {
@@ -578,10 +605,8 @@
             }
         });
 
-        // Dynamic URL fetch for Excel files
         async function loadExcelFromUrl(url) {
             if (window.location.protocol === 'file:') {
-                console.warn("fetch() skipped under file:// protocol to avoid CORS error.");
                 return;
             }
             try {
@@ -589,14 +614,14 @@
                 if (!response.ok) throw new Error(`HTTP error ${response.status}`);
                 const arrayBuffer = await response.arrayBuffer();
                 window.loadIELTSWorkbook(arrayBuffer, url.split('/').pop());
-                showToast("w2.xlsx auto-loaded successfully!");
+                showToast("Tự động tải file w2.xlsx thành công!");
             } catch (err) {
-                console.log("Could not auto-fetch excel file directly. Falling back to internal demo dataset.", err);
+                console.log("Could not auto-fetch excel file directly. Falling back to demo dataset.", err);
                 throw err;
             }
         }
 
-        window.loadIELTSWorkbook = function(arrayBuffer, fileName = 'Uploaded File') {
+        window.loadIELTSWorkbook = function(arrayBuffer, fileName = 'File đã tải') {
             const data = new Uint8Array(arrayBuffer);
             rawWorkbookData = XLSX.read(data, { type: 'array' });
             
@@ -613,11 +638,9 @@
 
             sheetContainer.classList.remove('hidden');
 
-            // Hide local file banner once a user successfully loads a file
             const banner = document.getElementById('fileProtocolBanner');
             if (banner) banner.classList.add('hidden');
 
-            // Prefer 'Writing Task 2' sheet or first sheet
             let targetSheet = rawWorkbookData.SheetNames.find(s => s.toLowerCase().includes('task 2')) || rawWorkbookData.SheetNames[0];
             sheetSelect.value = targetSheet;
 
@@ -626,9 +649,6 @@
             document.getElementById('dataLoadedBadge').className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
         };
 
-        // -------------------------------------------------------------
-        // LOCAL STORAGE FOR SAMPLE ESSAYS
-        // -------------------------------------------------------------
         function loadEssayStoreFromLocal() {
             try {
                 const stored = localStorage.getItem('ielts_writing_sample_essays');
@@ -655,9 +675,6 @@
             return item.id;
         }
 
-        // -------------------------------------------------------------
-        // EXCEL PARSING LOGIC (SheetJS)
-        // -------------------------------------------------------------
         function handleFileSelect(event) {
             const file = event.target.files[0];
             if (file) {
@@ -673,7 +690,7 @@
             const sheetName = document.getElementById('sheetSelect').value;
             if (rawWorkbookData && sheetName) {
                 parseSheet(sheetName);
-                showToast(`Switched to sheet: ${sheetName}`);
+                showToast(`Đã chuyển sang trang: ${sheetName}`);
             }
         }
 
@@ -683,11 +700,10 @@
 
             const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
             if (rows.length === 0) {
-                showToast("Selected sheet is empty.", "error");
+                showToast("Trang tính được chọn đang trống.", "error");
                 return;
             }
 
-            // Find header row containing column names
             let headerRowIdx = -1;
             for (let i = 0; i < Math.min(rows.length, 15); i++) {
                 const rowStr = rows[i].join(' ').toLowerCase();
@@ -727,8 +743,8 @@
 
                 const fullPrompt = idxFullPrompt >= 0 ? String(row[idxFullPrompt] || '').trim() : '';
                 const shortTitle = idxShortTitle >= 0 ? String(row[idxShortTitle] || '').trim() : '';
-                const essayTypeRaw = idxEssayType >= 0 ? String(row[idxEssayType] || '').trim() : 'Other';
-                const topicRaw = idxTopic >= 0 ? String(row[idxTopic] || '').trim() : 'General';
+                const essayTypeRaw = idxEssayType >= 0 ? String(row[idxEssayType] || '').trim() : 'Khác';
+                const topicRaw = idxTopic >= 0 ? String(row[idxTopic] || '').trim() : 'Tổng hợp';
                 const occRaw = idxOccurrences >= 0 ? parseInt(row[idxOccurrences], 10) : 1;
                 const recRaw = idxRecordedCount >= 0 ? parseInt(row[idxRecordedCount], 10) : occRaw;
                 const dateRange = idxDateRange >= 0 ? String(row[idxDateRange] || '').trim() : '';
@@ -736,7 +752,6 @@
                 const altPhrasings = idxAltPhrasings >= 0 ? String(row[idxAltPhrasings] || '').trim() : '';
                 const excelSample = idxSampleEssay >= 0 ? String(row[idxSampleEssay] || '').trim() : '';
 
-                // Filter out banner section rows (e.g., "B. ĐỀ TRÙNG")
                 if (!shortTitle && !fullPrompt) continue;
                 if (shortTitle.toLowerCase().startsWith('b. đề') || shortTitle.toLowerCase().startsWith('c. đề')) continue;
 
@@ -748,7 +763,7 @@
                     shortTitle: shortTitle || fullPrompt.slice(0, 40) + '...',
                     fullPrompt: fullPrompt || shortTitle,
                     essayType: normalizedType,
-                    topic: topicRaw || 'General',
+                    topic: topicRaw || 'Tổng hợp',
                     occurrences: occurrences,
                     recordedCount: isNaN(recRaw) ? occurrences : recRaw,
                     dateRange: dateRange,
@@ -770,12 +785,12 @@
                 populateFilterDropdowns();
                 applyFilters();
             } else {
-                showToast("Could not extract prompts from sheet.", "error");
+                showToast("Không thể trích xuất dữ liệu đề thi từ trang tính.", "error");
             }
         }
 
         function normalizeEssayType(raw) {
-            if (!raw) return 'Other';
+            if (!raw) return 'Khác';
             const lower = raw.toLowerCase();
             if (lower.includes('opinion') || lower.includes('agree') || lower.includes('disagree')) return 'Opinion';
             if (lower.includes('discussion') || lower.includes('both views')) return 'Discussion';
@@ -789,8 +804,8 @@
             parsedPrompts = [...DEMO_PROMPTS];
             populateFilterDropdowns();
             applyFilters();
-            document.getElementById('dataLoadedBadge').textContent = 'Demo Mode';
-            showToast("Demo dataset loaded");
+            document.getElementById('dataLoadedBadge').textContent = 'Chế độ Xem Thử';
+            showToast("Đã tải dữ liệu mẫu thành công");
         }
 
         // -------------------------------------------------------------
@@ -806,7 +821,7 @@
             const topics = Array.from(new Set(parsedPrompts.map(p => p.topic).filter(Boolean))).sort();
             const types = Array.from(new Set(parsedPrompts.map(p => p.essayType).filter(Boolean))).sort();
 
-            topicFilter.innerHTML = '<option value="ALL">All Topics (Tất cả chủ đề)</option>';
+            topicFilter.innerHTML = '<option value="ALL">Tất cả chủ đề</option>';
             topics.forEach(t => {
                 const opt = document.createElement('option');
                 opt.value = t;
@@ -815,7 +830,7 @@
             });
             topicFilter.value = topics.includes(currentTopic) ? currentTopic : 'ALL';
 
-            typeFilter.innerHTML = '<option value="ALL">All Essay Types (Dạng đề)</option>';
+            typeFilter.innerHTML = '<option value="ALL">Tất cả dạng đề</option>';
             types.forEach(t => {
                 const opt = document.createElement('option');
                 opt.value = t;
@@ -870,7 +885,7 @@
             document.getElementById('typeFilter').value = 'ALL';
             document.getElementById('statusFilter').value = 'ALL';
             applyFilters();
-            showToast("All filters reset");
+            showToast("Đã xóa tất cả bộ lọc");
         }
 
         function updateFilterTags() {
@@ -887,19 +902,20 @@
 
             if (searchVal) {
                 activeCount++;
-                addTag(`Search: "${searchVal}"`, () => { clearSearch(); });
+                addTag(`Từ khóa: "${searchVal}"`, () => { clearSearch(); });
             }
             if (topicVal !== 'ALL') {
                 activeCount++;
-                addTag(`Topic: ${topicVal}`, () => { document.getElementById('topicFilter').value = 'ALL'; applyFilters(); });
+                addTag(`Chủ đề: ${topicVal}`, () => { document.getElementById('topicFilter').value = 'ALL'; applyFilters(); });
             }
             if (typeVal !== 'ALL') {
                 activeCount++;
-                addTag(`Type: ${typeVal}`, () => { document.getElementById('typeFilter').value = 'ALL'; applyFilters(); });
+                addTag(`Dạng đề: ${typeVal}`, () => { document.getElementById('typeFilter').value = 'ALL'; applyFilters(); });
             }
             if (statusVal !== 'ALL') {
                 activeCount++;
-                addTag(`Status: ${statusVal}`, () => { document.getElementById('statusFilter').value = 'ALL'; applyFilters(); });
+                let label = statusVal === 'HAS_ESSAY' ? 'Đã có bài mẫu' : (statusVal === 'NEEDS_ESSAY' ? 'Chưa có bài mẫu' : 'Lặp lại ≥ 2 ngày');
+                addTag(`Trạng thái: ${label}`, () => { document.getElementById('statusFilter').value = 'ALL'; applyFilters(); });
             }
 
             container.classList.toggle('hidden', activeCount === 0);
@@ -926,7 +942,9 @@
         function renderKPIs() {
             const totalPrompts = parsedPrompts.length;
             const totalOccurrences = parsedPrompts.reduce((sum, p) => sum + p.occurrences, 0);
+            const totalUniqueTopics = new Set(parsedPrompts.map(p => p.topic).filter(Boolean)).size;
 
+            // 1. Top Essay Type
             const typeCounts = {};
             parsedPrompts.forEach(p => {
                 typeCounts[p.essayType] = (typeCounts[p.essayType] || 0) + 1;
@@ -940,6 +958,29 @@
                 }
             });
 
+            // 2. Accurate Top Topic Calculation (by exam days and prompt count)
+            const topicStats = {};
+            parsedPrompts.forEach(p => {
+                if (!topicStats[p.topic]) {
+                    topicStats[p.topic] = { occurrences: 0, count: 0 };
+                }
+                topicStats[p.topic].occurrences += p.occurrences;
+                topicStats[p.topic].count += 1;
+            });
+
+            let topTopicName = '-';
+            let topTopicOcc = 0;
+            let topTopicPrompts = 0;
+
+            Object.entries(topicStats).forEach(([tName, stat]) => {
+                if (stat.occurrences > topTopicOcc) {
+                    topTopicOcc = stat.occurrences;
+                    topTopicPrompts = stat.count;
+                    topTopicName = tName;
+                }
+            });
+
+            // 3. Sample Essay Progress
             let essayCount = 0;
             parsedPrompts.forEach(p => {
                 const key = getPromptKey(p);
@@ -950,29 +991,57 @@
 
             const percent = totalPrompts > 0 ? Math.round((essayCount / totalPrompts) * 100) : 0;
 
+            // Update KPI DOM
             document.getElementById('kpiTotalPrompts').textContent = totalPrompts.toLocaleString();
+            document.getElementById('kpiPromptsSub').textContent = `${totalUniqueTopics} chủ đề khác nhau`;
+
             document.getElementById('kpiTotalOccurrences').textContent = totalOccurrences.toLocaleString();
+
             document.getElementById('kpiTopType').textContent = topType;
-            document.getElementById('kpiTopTypeSub').textContent = `${maxTypeCount} prompts (${totalPrompts > 0 ? Math.round((maxTypeCount/totalPrompts)*100) : 0}%)`;
+            document.getElementById('kpiTopTypeSub').textContent = `${maxTypeCount} đề (${totalPrompts > 0 ? Math.round((maxTypeCount/totalPrompts)*100) : 0}%)`;
+
+            document.getElementById('kpiTopTopicName').textContent = topTopicName;
+            document.getElementById('kpiTopTopicName').title = topTopicName;
+            document.getElementById('kpiTopTopicSub').textContent = `${topTopicOcc} lượt ngày (${topTopicPrompts} đề)`;
+
             document.getElementById('kpiEssayCount').textContent = `${essayCount} / ${totalPrompts}`;
-            document.getElementById('kpiEssayPercent').textContent = `${percent}% complete`;
-            document.getElementById('filteredCountBadge').textContent = `${filteredPrompts.length} of ${totalPrompts} prompts`;
+            document.getElementById('kpiEssayPercent').textContent = `${percent}%`;
+            document.getElementById('kpiProgressBar').style.width = `${percent}%`;
+
+            document.getElementById('filteredCountBadge').textContent = `${filteredPrompts.length} / ${totalPrompts} đề`;
+        }
+
+        function setTopicMetric(metric) {
+            activeTopicMetric = metric;
+            const btnOcc = document.getElementById('btnMetricOccurrences');
+            const btnCount = document.getElementById('btnMetricCount');
+
+            if (metric === 'occurrences') {
+                btnOcc.className = "text-[11px] font-semibold px-2.5 py-1 rounded-md bg-white text-indigo-700 shadow-sm transition";
+                btnCount.className = "text-[11px] font-medium px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition";
+            } else {
+                btnCount.className = "text-[11px] font-semibold px-2.5 py-1 rounded-md bg-white text-indigo-700 shadow-sm transition";
+                btnOcc.className = "text-[11px] font-medium px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition";
+            }
+
+            renderCharts();
         }
 
         function renderCharts() {
-            // Aggregate Topics & Match Colors
-            const topicCounts = {};
+            // Aggregate Topic Data according to selected metric
+            const topicAgg = {};
             parsedPrompts.forEach(p => {
-                topicCounts[p.topic] = (topicCounts[p.topic] || 0) + p.occurrences;
+                if (!topicAgg[p.topic]) {
+                    topicAgg[p.topic] = { occurrences: 0, count: 0 };
+                }
+                topicAgg[p.topic].occurrences += p.occurrences;
+                topicAgg[p.topic].count += 1;
             });
 
-            const sortedTopics = Object.entries(topicCounts)
-                .sort((a, b) => b[1] - a[1])
+            const sortedTopics = Object.entries(topicAgg)
+                .sort((a, b) => b[1][activeTopicMetric] - a[1][activeTopicMetric])
                 .slice(0, 8);
 
-            document.getElementById('topicCountBadge').textContent = `${Object.keys(topicCounts).length} Topics`;
-
-            // Bar colors dynamically mapped to exact topic colors!
             const topicBarColors = sortedTopics.map(t => getTopicStyle(t[0]).hex);
 
             const ctxTopic = document.getElementById('topicChart').getContext('2d');
@@ -983,8 +1052,8 @@
                 data: {
                     labels: sortedTopics.map(t => t[0]),
                     datasets: [{
-                        label: 'Exam Days',
-                        data: sortedTopics.map(t => t[1]),
+                        label: activeTopicMetric === 'occurrences' ? 'Số lượt ngày thi' : 'Số lượng đề thi',
+                        data: sortedTopics.map(t => t[1][activeTopicMetric]),
                         backgroundColor: topicBarColors,
                         borderRadius: 6
                     }]
@@ -996,7 +1065,11 @@
                         legend: { display: false },
                         tooltip: {
                             callbacks: {
-                                label: (context) => ` Recorded Exam Days: ${context.parsed.y}`
+                                label: (context) => {
+                                    const tName = context.label;
+                                    const stat = topicAgg[tName];
+                                    return ` Lượt ngày thi: ${stat.occurrences} | Số đề thi: ${stat.count}`;
+                                }
                             }
                         }
                     },
@@ -1010,13 +1083,13 @@
                             const clickedTopic = sortedTopics[index][0];
                             document.getElementById('topicFilter').value = clickedTopic;
                             applyFilters();
-                            showToast(`Filtered by Topic: ${clickedTopic}`);
+                            showToast(`Lọc theo chủ đề: ${clickedTopic}`);
                         }
                     }
                 }
             });
 
-            // Essay Types Chart
+            // Essay Types Doughnut Chart
             const typeCounts = {};
             parsedPrompts.forEach(p => {
                 typeCounts[p.essayType] = (typeCounts[p.essayType] || 0) + 1;
@@ -1055,7 +1128,7 @@
                             const clickedType = typeLabels[index];
                             document.getElementById('typeFilter').value = clickedType;
                             applyFilters();
-                            showToast(`Filtered by Type: ${clickedType}`);
+                            showToast(`Lọc theo dạng đề: ${clickedType}`);
                         }
                     }
                 }
@@ -1082,10 +1155,7 @@
                 const hasEssay = essayStore[promptKey] && essayStore[promptKey].trim().length > 0;
                 const essayText = essayStore[promptKey] || '';
 
-                // Get Distinct Topic Styling
                 const topicStyle = getTopicStyle(item.topic);
-
-                // Essay Type Styling
                 const typeStyle = TYPE_COLORS[item.essayType] || TYPE_COLORS['Other'];
 
                 tr.innerHTML = `
@@ -1098,7 +1168,7 @@
                             <p class="text-xs text-slate-600 font-serif leading-relaxed line-clamp-2">
                                 ${escapeHtml(item.fullPrompt)}
                             </p>
-                            ${item.altPhrasings ? `<p class="text-[11px] text-slate-400 italic">Alt: ${escapeHtml(item.altPhrasings)}</p>` : ''}
+                            ${item.altPhrasings ? `<p class="text-[11px] text-slate-400 italic">Cách ghi khác: ${escapeHtml(item.altPhrasings)}</p>` : ''}
                         </div>
                     </td>
                     <td class="py-3.5 px-3">
@@ -1107,7 +1177,6 @@
                         </span>
                     </td>
                     <td class="py-3.5 px-3">
-                        <!-- Distinct Topic Badge -->
                         <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-semibold border ${topicStyle.bg} ${topicStyle.text} ${topicStyle.border}">
                             ${escapeHtml(item.topic)}
                         </span>
@@ -1115,7 +1184,7 @@
                     <td class="py-3.5 px-3 text-center">
                         <div class="inline-flex flex-col items-center">
                             <span class="font-bold text-sm ${item.occurrences >= 2 ? 'text-indigo-600' : 'text-slate-700'}">${item.occurrences}</span>
-                            <span class="text-[10px] text-slate-400">days</span>
+                            <span class="text-[10px] text-slate-400">ngày</span>
                         </div>
                     </td>
                     <td class="py-3.5 px-3">
@@ -1128,12 +1197,12 @@
                         ${hasEssay ? `
                             <button onclick="openEssayModal('${item.id}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-semibold transition">
                                 <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
-                                <span>Edit Essay (${countWords(essayText)}w)</span>
+                                <span>Sửa Bài Mẫu (${countWords(essayText)} từ)</span>
                             </button>
                         ` : `
                             <button onclick="openEssayModal('${item.id}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 border border-slate-200 rounded-lg text-xs font-medium transition">
                                 <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
-                                <span>+ Write Essay</span>
+                                <span>+ Viết Bài Mẫu</span>
                             </button>
                         `}
                     </td>
@@ -1182,13 +1251,15 @@
             const wordCount = countWords(text);
             
             const badge = document.getElementById('wordCountBadge');
-            badge.textContent = `${wordCount} words`;
 
             if (wordCount >= 250) {
+                badge.textContent = `${wordCount} từ (Đạt mục tiêu ≥ 250 từ)`;
                 badge.className = 'px-2.5 py-1 rounded-md font-semibold bg-emerald-100 text-emerald-700 border border-emerald-200';
             } else if (wordCount > 0) {
+                badge.textContent = `${wordCount} từ`;
                 badge.className = 'px-2.5 py-1 rounded-md font-semibold bg-amber-100 text-amber-700 border border-amber-200';
             } else {
+                badge.textContent = `0 từ`;
                 badge.className = 'px-2.5 py-1 rounded-md font-semibold bg-slate-100 text-slate-600 border border-slate-200';
             }
 
@@ -1217,11 +1288,11 @@
             renderTable();
             renderKPIs();
             closeEssayModal();
-            showToast("Sample essay saved!");
+            showToast("Đã lưu bài viết mẫu thành công!");
         }
 
         function clearCurrentEssay() {
-            if (!confirm("Clear current essay text?")) return;
+            if (!confirm("Bạn có chắc chắn muốn xóa toàn bộ nội dung bài viết này không?")) return;
             document.getElementById('essayTextArea').value = '';
             handleEssayInput();
         }
@@ -1235,7 +1306,7 @@
             document.execCommand('copy');
             document.body.removeChild(dummy);
 
-            showToast("Prompt copied to clipboard!");
+            showToast("Đã sao chép nội dung đề thi vào bộ nhớ tạm!");
         }
 
         // -------------------------------------------------------------
@@ -1243,7 +1314,7 @@
         // -------------------------------------------------------------
         function exportToExcel() {
             if (parsedPrompts.length === 0) {
-                showToast("No data available to export.", "error");
+                showToast("Không có dữ liệu để xuất file.", "error");
                 return;
             }
 
@@ -1268,7 +1339,7 @@
             XLSX.utils.book_append_sheet(workbook, worksheet, "Writing Task 2 Tracker");
 
             XLSX.writeFile(workbook, `IELTS_Task2_Tracker_With_Essays_${new Date().toISOString().slice(0,10)}.xlsx`);
-            showToast("Excel sheet exported with essays!");
+            showToast("Đã xuất thành công file Excel kèm các bài viết mẫu!");
         }
 
         function exportToJSON() {
@@ -1286,7 +1357,7 @@
             downloadAnchor.click();
             downloadAnchor.remove();
 
-            showToast("JSON backup downloaded!");
+            showToast("Đã tải xuống bản sao lưu JSON!");
         }
 
         // -------------------------------------------------------------
@@ -1317,6 +1388,9 @@
             if (type === 'error') {
                 toastIcon.setAttribute('data-lucide', 'alert-circle');
                 toastIcon.className = 'w-4 h-4 text-rose-400';
+            } else if (type === 'warning') {
+                toastIcon.setAttribute('data-lucide', 'alert-triangle');
+                toastIcon.className = 'w-4 h-4 text-amber-400';
             } else {
                 toastIcon.setAttribute('data-lucide', 'check-circle');
                 toastIcon.className = 'w-4 h-4 text-emerald-400';
