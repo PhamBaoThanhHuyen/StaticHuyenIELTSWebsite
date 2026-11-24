@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Writing Task 2 Statistics & Essay Studio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#1e1b4b',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Lora', 'Georgia', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- SheetJS (xlsx) -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="h-full text-slate-800 font-sans flex flex-col antialiased bg-slate-50">
+
+    <!-- Navigation Header with Direct Controls -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            <!-- Brand / Logo -->
+            <div class="flex items-center space-x-3 min-w-max">
+                <div class="p-2 bg-indigo-600 rounded-lg text-white font-bold shadow-md shadow-indigo-500/20">
+                    <i data-lucide="book-open-check" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base leading-tight tracking-tight text-white flex items-center gap-2">
+                        IELTS Task 2 Tracker
+                        <span id="dataLoadedBadge" class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Auto Ready</span>
+                    </h1>
+                    <p class="text-[11px] text-slate-400 hidden sm:block">Interactive Exam Frequency & Essay Studio</p>
+                </div>
+            </div>
+
+            <!-- Top Action Controls -->
+            <div class="flex items-center space-x-2.5 overflow-x-auto py-1">
+                <!-- Sheet Switcher (Shown when excel workbook has multiple sheets) -->
+                <div id="sheetSelectContainer" class="hidden flex items-center gap-1.5 bg-slate-800 px-2.5 py-1.5 rounded-lg border border-slate-700">
+                    <i data-lucide="layers" class="w-3.5 h-3.5 text-slate-400"></i>
+                    <select id="sheetSelect" onchange="changeSheet()" class="bg-transparent text-xs text-slate-200 outline-none cursor-pointer pr-1">
+                        <!-- Options populated dynamically -->
+                    </select>
+                </div>
+
+                <!-- Load Local Demo Button -->
+                <button onclick="loadSampleData()" class="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg border border-slate-700 transition flex items-center gap-1.5 shrink-0">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+                    <span class="hidden md:inline">Demo Data</span>
+                </button>
+
+                <!-- Excel File Loader Button -->
+                <label for="excelFileInput" class="cursor-pointer text-xs px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg shadow-sm transition flex items-center gap-1.5 shrink-0">
+                    <i data-lucide="file-up" class="w-3.5 h-3.5"></i>
+                    <span>Load Excel Sheet</span>
+                </label>
+                <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileSelect(event)">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- Local Protocol Notice Banner (shown when opened via file://) -->
+        <div id="fileProtocolBanner" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-900 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-sm">
+            <div class="flex items-start gap-2.5">
+                <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+                <div>
+                    <strong class="font-semibold text-amber-950">Local File Mode Detected (<code class="bg-amber-100 px-1 py-0.5 rounded text-[11px]">file://</code>)</strong>
+                    <p class="text-amber-800 mt-0.5">Browsers block automatic background loading (<code class="bg-amber-100 px-1 py-0.5 rounded text-[11px]">fetch</code>) of local Excel files due to security policies. Click <strong>"Select w2.xlsx"</strong> to load your file directly, or run a local web server (<code class="bg-amber-100 px-1 py-0.5 rounded text-[11px]">npx serve</code> or <code class="bg-amber-100 px-1 py-0.5 rounded text-[11px]">python -m http.server</code>).</p>
+                </div>
+            </div>
+            <label for="excelFileInput" class="cursor-pointer text-xs px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg shadow-sm transition flex items-center gap-1.5 shrink-0">
+                <i data-lucide="file-up" class="w-4 h-4"></i>
+                <span>Select w2.xlsx</span>
+            </label>
+        </div>
+
+        <!-- KPI Metric Cards -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Unique Prompts</p>
+                    <p id="kpiTotalPrompts" class="text-2xl font-bold text-slate-900 mt-0.5">0</p>
+                    <p id="kpiPromptsSub" class="text-[11px] text-slate-400 mt-0.5">Distinct exam topics</p>
+                </div>
+                <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl">
+                    <i data-lucide="file-text" class="w-5 h-5"></i>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Occurrences</p>
+                    <p id="kpiTotalOccurrences" class="text-2xl font-bold text-indigo-600 mt-0.5">0</p>
+                    <p id="kpiOccurrencesSub" class="text-[11px] text-slate-400 mt-0.5">Sum of exam days</p>
+                </div>
+                <div class="p-3 bg-amber-50 text-amber-600 rounded-xl">
+                    <i data-lucide="repeat" class="w-5 h-5"></i>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Top Essay Type</p>
+                    <p id="kpiTopType" class="text-base font-bold text-slate-900 mt-0.5 truncate max-w-[140px]">-</p>
+                    <p id="kpiTopTypeSub" class="text-[11px] text-slate-400 mt-0.5">Most tested format</p>
+                </div>
+                <div class="p-3 bg-purple-50 text-purple-600 rounded-xl">
+                    <i data-lucide="pie-chart" class="w-5 h-5"></i>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Sample Essay Coverage</p>
+                    <p id="kpiEssayCount" class="text-2xl font-bold text-emerald-600 mt-0.5">0 / 0</p>
+                    <p id="kpiEssayPercent" class="text-[11px] text-emerald-600 font-medium mt-0.5">0% written</p>
+                </div>
+                <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
+                    <i data-lucide="pen-tool" class="w-5 h-5"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Analytics Charts -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Topic Chart with Matching Distinct Palette (2 cols) -->
+            <div class="lg:col-span-2 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                            <i data-lucide="bar-chart-3" class="w-5 h-5 text-indigo-600"></i>
+                            Topic Distribution & Occurrences (Chủ Đề)
+                        </h2>
+                        <p class="text-xs text-slate-500">Color-coded topics. Click any bar to filter the prompt list.</p>
+                    </div>
+                    <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md font-medium" id="topicCountBadge">0 Topics</span>
+                </div>
+                <div class="relative h-64 w-full">
+                    <canvas id="topicChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Essay Type Chart (1 col) -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                            <i data-lucide="pie-chart" class="w-5 h-5 text-indigo-600"></i>
+                            Essay Types (Dạng Đề)
+                        </h2>
+                        <p class="text-xs text-slate-500">Click a slice to isolate that question type</p>
+                    </div>
+                </div>
+                <div class="relative h-64 w-full flex items-center justify-center">
+                    <canvas id="typeChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Controls Toolbar & Filters -->
+        <section class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <h3 class="font-bold text-slate-800 text-lg">Exam Prompts & Sample Essay Studio</h3>
+                    <span id="filteredCountBadge" class="text-xs bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full font-semibold">0 items</span>
+                </div>
+
+                <!-- Export Options -->
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="exportToExcel()" class="text-xs px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg transition flex items-center gap-1.5 shadow-sm">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        <span>Export Excel (+ Essays)</span>
+                    </button>
+                    <button onclick="exportToJSON()" class="text-xs px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition flex items-center gap-1.5">
+                        <i data-lucide="file-code" class="w-3.5 h-3.5"></i>
+                        <span>Backup JSON</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Inputs Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-2 border-t border-slate-100">
+                <!-- Search Box -->
+                <div class="lg:col-span-2 relative">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+                    <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Search prompts, keywords, dates..." class="w-full pl-9 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
+                    <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <!-- Filter: Topic -->
+                <div>
+                    <select id="topicFilter" onchange="applyFilters()" class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="ALL">All Topics (Tất cả chủ đề)</option>
+                    </select>
+                </div>
+
+                <!-- Filter: Essay Type -->
+                <div>
+                    <select id="typeFilter" onchange="applyFilters()" class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="ALL">All Essay Types (Dạng đề)</option>
+                    </select>
+                </div>
+
+                <!-- Filter: Status -->
+                <div>
+                    <select id="statusFilter" onchange="applyFilters()" class="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="ALL">All Sample Statuses</option>
+                        <option value="HAS_ESSAY">Has Sample Essay</option>
+                        <option value="NEEDS_ESSAY">Needs Sample Essay</option>
+                        <option value="FREQ_2">Repeated (≥ 2 days)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Active Filters Pill Container -->
+            <div id="activeFilterTags" class="hidden flex items-center gap-2 pt-1 text-xs text-slate-500">
+                <span>Active filters:</span>
+                <div id="filterTagsList" class="flex flex-wrap items-center gap-1.5"></div>
+                <button onclick="resetAllFilters()" class="text-indigo-600 hover:underline font-medium text-xs ml-2">Reset all</button>
+            </div>
+        </section>
+
+        <!-- Main Prompts & Sample Essay Table -->
+        <section class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50/80 border-b border-slate-200 text-slate-600 text-[11px] font-semibold uppercase tracking-wider">
+                            <th class="py-3.5 px-4 text-center w-12">#</th>
+                            <th class="py-3.5 px-4 min-w-[300px]">IELTS Writing Prompt & Short Title</th>
+                            <th class="py-3.5 px-3">Type (Dạng đề)</th>
+                            <th class="py-3.5 px-3">Distinct Topic (Chủ đề)</th>
+                            <th class="py-3.5 px-3 text-center">Days</th>
+                            <th class="py-3.5 px-3">Exam Date Range</th>
+                            <th class="py-3.5 px-4 text-right min-w-[180px]">Sample Essay (Bài mẫu)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="promptTableBody" class="divide-y divide-slate-100 text-xs">
+                        <!-- Filled dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden py-16 text-center">
+                <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="search-x" class="w-6 h-6"></i>
+                </div>
+                <h4 class="font-semibold text-slate-700 text-sm">No matching prompts found</h4>
+                <p class="text-xs text-slate-500 mt-1">Try resetting your search query or adjusting your filters.</p>
+                <button onclick="resetAllFilters()" class="mt-3 text-xs bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-lg font-medium hover:bg-indigo-100 transition">Reset Filters</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-auto py-4">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-400">
+            IELTS Writing Task 2 Interactive Analytics & Essay Studio • Data auto-persisted in local storage
+        </div>
+    </footer>
+
+    <!-- Slide-over Drawer Modal for Writing / Editing Sample Essays -->
+    <div id="essayModal" class="fixed inset-0 z-50 overflow-hidden hidden" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeEssayModal()"></div>
+
+        <div class="fixed inset-y-0 right-0 pl-10 max-w-full flex">
+            <div class="w-screen max-w-2xl bg-white shadow-2xl flex flex-col">
+                <!-- Modal Header -->
+                <div class="p-5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="pen-tool" class="w-5 h-5 text-indigo-400"></i>
+                        <h3 class="font-bold text-base text-white">Sample Essay Studio</h3>
+                    </div>
+                    <button onclick="closeEssayModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="flex-1 overflow-y-auto p-6 space-y-5">
+                    <!-- Prompt Context Card -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2">
+                        <div class="flex items-center justify-between gap-2 flex-wrap">
+                            <span id="modalTopicBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold">Topic</span>
+                            <span id="modalTypeBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-200 text-slate-700">Type</span>
+                        </div>
+                        <h4 id="modalShortTitle" class="font-bold text-slate-900 text-base">Prompt Title</h4>
+                        <div class="bg-white border border-slate-200 rounded-lg p-3 text-xs text-slate-700 font-serif leading-relaxed" id="modalFullPrompt">
+                            Full prompt content...
+                        </div>
+                        <button onclick="copyPromptToClipboard()" class="text-[11px] text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 pt-1">
+                            <i data-lucide="copy" class="w-3 h-3"></i> Copy Prompt Text
+                        </button>
+                    </div>
+
+                    <!-- Editor Header & Live Stats -->
+                    <div class="flex items-center justify-between">
+                        <label for="essayTextArea" class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                            Write / Edit Sample Essay (Target ≥ 250 words)
+                        </label>
+                        <div class="flex items-center space-x-3 text-xs">
+                            <span id="wordCountBadge" class="px-2.5 py-1 rounded-md font-semibold bg-slate-100 text-slate-600 border border-slate-200">0 words</span>
+                        </div>
+                    </div>
+
+                    <!-- Essay Textarea -->
+                    <div class="relative">
+                        <textarea id="essayTextArea" oninput="handleEssayInput()" placeholder="Write your Band 8/9 model response here..." class="w-full h-80 p-4 font-serif text-sm text-slate-800 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none leading-relaxed resize-y shadow-inner"></textarea>
+                    </div>
+
+                    <!-- IELTS Writing Criterion Checklist -->
+                    <div class="border-t border-slate-200 pt-4 space-y-2">
+                        <p class="text-xs font-semibold text-slate-700 uppercase tracking-wider">IELTS Assessment Criteria Checklist</p>
+                        <div class="grid grid-cols-2 gap-2 text-xs text-slate-600">
+                            <div class="flex items-center gap-1.5 bg-slate-50 p-2 rounded-lg border border-slate-100">
+                                <i data-lucide="check-square" class="w-4 h-4 text-emerald-500"></i>
+                                <span><strong>TR:</strong> Fully addresses all parts</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 bg-slate-50 p-2 rounded-lg border border-slate-100">
+                                <i data-lucide="check-square" class="w-4 h-4 text-emerald-500"></i>
+                                <span><strong>CC:</strong> Clear logical paragraphing</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 bg-slate-50 p-2 rounded-lg border border-slate-100">
+                                <i data-lucide="check-square" class="w-4 h-4 text-emerald-500"></i>
+                                <span><strong>LR:</strong> Topic-specific collocations</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 bg-slate-50 p-2 rounded-lg border border-slate-100">
+                                <i data-lucide="check-square" class="w-4 h-4 text-emerald-500"></i>
+                                <span><strong>GRA:</strong> Complex & accurate grammar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+                    <button onclick="clearCurrentEssay()" class="text-xs px-3 py-2 text-rose-600 hover:bg-rose-50 rounded-lg transition font-medium">Clear Text</button>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="closeEssayModal()" class="text-xs px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-lg transition">Cancel</button>
+                        <button onclick="saveCurrentEssay()" class="text-xs px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg transition shadow-sm flex items-center gap-1.5">
+                            <i data-lucide="save" class="w-4 h-4"></i> Save Sample Essay
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <i data-lucide="info" class="w-4 h-4 text-indigo-400" id="toastIcon"></i>
+        <span id="toastMessage">Action completed successfully</span>
+    </div>
+
+    <!-- Application Script Logic -->
+    <script>
+        // Global State
+        let rawWorkbookData = null;
+        let parsedPrompts = [];
+        let filteredPrompts = [];
+        let essayStore = {}; // Loaded from localStorage
+        let currentActivePromptId = null;
+
+        // Chart instances
+        let topicChartInstance = null;
+        let typeChartInstance = null;
+
+        // -------------------------------------------------------------
+        // TOPIC DISTINCT COLOR PALETTE SYSTEM (Vietnamese & English)
+        // -------------------------------------------------------------
+        const TOPIC_COLOR_PRESETS = [
+            { key: 'giáo dục', bg: 'bg-indigo-100', text: 'text-indigo-800', border: 'border-indigo-200', hex: '#4338ca' },
+            { key: 'education', bg: 'bg-indigo-100', text: 'text-indigo-800', border: 'border-indigo-200', hex: '#4338ca' },
+            { key: 'gia đình', bg: 'bg-rose-100', text: 'text-rose-800', border: 'border-rose-200', hex: '#be185d' },
+            { key: 'family', bg: 'bg-rose-100', text: 'text-rose-800', border: 'border-rose-200', hex: '#be185d' },
+            { key: 'công việc', bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-200', hex: '#b45309' },
+            { key: 'kinh tế', bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-200', hex: '#b45309' },
+            { key: 'work', bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-200', hex: '#b45309' },
+            { key: 'môi trường', bg: 'bg-emerald-100', text: 'text-emerald-800', border: 'border-emerald-200', hex: '#047857' },
+            { key: 'giao thông', bg: 'bg-emerald-100', text: 'text-emerald-800', border: 'border-emerald-200', hex: '#047857' },
+            { key: 'environment', bg: 'bg-emerald-100', text: 'text-emerald-800', border: 'border-emerald-200', hex: '#047857' },
+            { key: 'truyền thông', bg: 'bg-cyan-100', text: 'text-cyan-800', border: 'border-cyan-200', hex: '#0369a1' },
+            { key: 'công nghệ', bg: 'bg-cyan-100', text: 'text-cyan-800', border: 'border-cyan-200', hex: '#0369a1' },
+            { key: 'technology', bg: 'bg-cyan-100', text: 'text-cyan-800', border: 'border-cyan-200', hex: '#0369a1' },
+            { key: 'chính phủ', bg: 'bg-red-100', text: 'text-red-800', border: 'border-red-200', hex: '#b91c1c' },
+            { key: 'luật', bg: 'bg-red-100', text: 'text-red-800', border: 'border-red-200', hex: '#b91c1c' },
+            { key: 'government', bg: 'bg-red-100', text: 'text-red-800', border: 'border-red-200', hex: '#b91c1c' },
+            { key: 'xã hội', bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-200', hex: '#6d28d9' },
+            { key: 'văn hóa', bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-200', hex: '#6d28d9' },
+            { key: 'society', bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-200', hex: '#6d28d9' },
+            { key: 'sức khỏe', bg: 'bg-teal-100', text: 'text-teal-800', border: 'border-teal-200', hex: '#0f766e' },
+            { key: 'health', bg: 'bg-teal-100', text: 'text-teal-800', border: 'border-teal-200', hex: '#0f766e' }
+        ];
+
+        const FALLBACK_PALETTES = [
+            { bg: 'bg-indigo-100', text: 'text-indigo-800', border: 'border-indigo-200', hex: '#4338ca' },
+            { bg: 'bg-rose-100', text: 'text-rose-800', border: 'border-rose-200', hex: '#be185d' },
+            { bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-200', hex: '#b45309' },
+            { bg: 'bg-emerald-100', text: 'text-emerald-800', border: 'border-emerald-200', hex: '#047857' },
+            { bg: 'bg-cyan-100', text: 'text-cyan-800', border: 'border-cyan-200', hex: '#0369a1' },
+            { bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-200', hex: '#6d28d9' },
+            { bg: 'bg-teal-100', text: 'text-teal-800', border: 'border-teal-200', hex: '#0f766e' },
+            { bg: 'bg-red-100', text: 'text-red-800', border: 'border-red-200', hex: '#b91c1c' },
+            { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-200', hex: '#1d4ed8' },
+            { bg: 'bg-slate-100', text: 'text-slate-800', border: 'border-slate-200', hex: '#475569' }
+        ];
+
+        function getTopicStyle(topicName) {
+            if (!topicName) return FALLBACK_PALETTES[0];
+            const lower = topicName.toLowerCase();
+            
+            for (let preset of TOPIC_COLOR_PRESETS) {
+                if (lower.includes(preset.key)) {
+                    return preset;
+                }
+            }
+            
+            // Deterministic hash based on string character sum
+            let hash = 0;
+            for (let i = 0; i < topicName.length; i++) {
+                hash = topicName.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const idx = Math.abs(hash) % FALLBACK_PALETTES.length;
+            return FALLBACK_PALETTES[idx];
+        }
+
+        const TYPE_COLORS = {
+            'Opinion': { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-200', hex: '#3b82f6' },
+            'Discussion': { bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-200', hex: '#f59e0b' },
+            'Problem & Solution': { bg: 'bg-rose-100', text: 'text-rose-800', border: 'border-rose-200', hex: '#f43f5e' },
+            'Direct Questions': { bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-200', hex: '#a855f7' },
+            'Advantages & Disadvantages': { bg: 'bg-emerald-100', text: 'text-emerald-800', border: 'border-emerald-200', hex: '#10b981' },
+            'Other': { bg: 'bg-slate-100', text: 'text-slate-800', border: 'border-slate-200', hex: '#64748b' }
+        };
+
+        // Fallback sample data if no file is present
+        const DEMO_PROMPTS = [
+            {
+                id: 'p1',
+                shortTitle: 'University education vs Practical skills',
+                fullPrompt: 'Some people think that universities should provide graduates with the knowledge and skills needed in the workplace. Others think that the true function of a university should be to give access to knowledge for its own sake, regardless of whether the course is useful to an employer. Discuss both views and give your opinion.',
+                essayType: 'Discussion',
+                topic: 'Giáo dục & Ngôn ngữ',
+                occurrences: 7,
+                recordedCount: 7,
+                dateRange: '2024-01-13 → 2026-02-28',
+                sources: 'BC & IDP - Hanoi, HCMC',
+                altPhrasings: 'Universities purpose: employment vs pure academic knowledge'
+            },
+            {
+                id: 'p2',
+                shortTitle: 'Adult children living with parents',
+                fullPrompt: 'In many countries, more and more adult children are choosing to live with their parents after graduating or getting a job. Is this a positive or negative development?',
+                essayType: 'Opinion',
+                topic: 'Gia đình & Thế hệ',
+                occurrences: 5,
+                recordedCount: 5,
+                dateRange: '2024-03-09 → 2026-01-20',
+                sources: 'IDP Vietnam, BC Global',
+                altPhrasings: 'Young adults remaining in family homes'
+            },
+            {
+                id: 'p3',
+                shortTitle: 'Government investment in public transport vs roads',
+                fullPrompt: 'Governments should spend more money on expanding public transportation networks such as railways and buses rather than building new roads for private cars. To what extent do you agree or disagree?',
+                essayType: 'Opinion',
+                topic: 'Môi trường & Giao thông',
+                occurrences: 4,
+                recordedCount: 4,
+                dateRange: '2024-05-18 → 2025-11-15',
+                sources: 'BC Danang, IDP Saigon',
+                altPhrasings: 'Public transport vs highway funding'
+            },
+            {
+                id: 'p4',
+                shortTitle: 'Loss of local traditional culture due to technology',
+                fullPrompt: 'Technological developments have led to the decline of traditional cultures in modern societies. What problems does this cause? What measures can be taken to preserve traditional cultures?',
+                essayType: 'Problem & Solution',
+                topic: 'Công nghệ & Truyền thông',
+                occurrences: 3,
+                recordedCount: 3,
+                dateRange: '2024-02-24 → 2025-08-10',
+                sources: 'IDP Online & Paper',
+                altPhrasings: 'Modern technology eroding cultural identity'
+            },
+            {
+                id: 'p5',
+                shortTitle: 'Fast food consumption and public health',
+                fullPrompt: 'In many countries, fast food is becoming cheaper and more accessible while health problems related to diet are rising. Why is this happening? What can be done to encourage healthier eating habits?',
+                essayType: 'Direct Questions',
+                topic: 'Sức khỏe & Đời sống',
+                occurrences: 3,
+                recordedCount: 3,
+                dateRange: '2024-06-01 → 2026-02-14',
+                sources: 'BC Australia, IDP VN',
+                altPhrasings: 'Junk food accessibility and lifestyle diseases'
+            },
+            {
+                id: 'p6',
+                shortTitle: 'Remote working impact on cities',
+                fullPrompt: 'More people now work from home using digital technology. What are the advantages and disadvantages of this trend for workers and urban communities?',
+                essayType: 'Advantages & Disadvantages',
+                topic: 'Công việc & Kinh tế',
+                occurrences: 2,
+                recordedCount: 2,
+                dateRange: '2024-09-12 → 2025-12-04',
+                sources: 'IDP Computer-based',
+                altPhrasings: 'Teleworking benefits and drawbacks for cities'
+            }
+        ];
+
+        // -------------------------------------------------------------
+        // APPLICATION INITIALIZATION & AUTO-LOAD LOGIC
+        // -------------------------------------------------------------
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            loadEssayStoreFromLocal();
+
+            const isFileProtocol = window.location.protocol === 'file:';
+            const banner = document.getElementById('fileProtocolBanner');
+
+            if (isFileProtocol) {
+                if (banner) banner.classList.remove('hidden');
+                document.getElementById('dataLoadedBadge').textContent = 'Local File Mode';
+                document.getElementById('dataLoadedBadge').className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30';
+                loadSampleData();
+                showToast("Local file protocol detected. Select w2.xlsx using the button above.", "warning");
+            } else {
+                const defaultExcelPath = './w2.xlsx';
+                loadExcelFromUrl(defaultExcelPath).catch(() => {
+                    loadSampleData();
+                });
+            }
+        });
+
+        // Dynamic URL fetch for Excel files
+        async function loadExcelFromUrl(url) {
+            if (window.location.protocol === 'file:') {
+                console.warn("fetch() skipped under file:// protocol to avoid CORS error.");
+                return;
+            }
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+                const arrayBuffer = await response.arrayBuffer();
+                window.loadIELTSWorkbook(arrayBuffer, url.split('/').pop());
+                showToast("w2.xlsx auto-loaded successfully!");
+            } catch (err) {
+                console.log("Could not auto-fetch excel file directly. Falling back to internal demo dataset.", err);
+                throw err;
+            }
+        }
+
+        window.loadIELTSWorkbook = function(arrayBuffer, fileName = 'Uploaded File') {
+            const data = new Uint8Array(arrayBuffer);
+            rawWorkbookData = XLSX.read(data, { type: 'array' });
+            
+            const sheetSelect = document.getElementById('sheetSelect');
+            const sheetContainer = document.getElementById('sheetSelectContainer');
+            sheetSelect.innerHTML = '';
+            
+            rawWorkbookData.SheetNames.forEach(sheetName => {
+                const option = document.createElement('option');
+                option.value = sheetName;
+                option.textContent = sheetName;
+                sheetSelect.appendChild(option);
+            });
+
+            sheetContainer.classList.remove('hidden');
+
+            // Hide local file banner once a user successfully loads a file
+            const banner = document.getElementById('fileProtocolBanner');
+            if (banner) banner.classList.add('hidden');
+
+            // Prefer 'Writing Task 2' sheet or first sheet
+            let targetSheet = rawWorkbookData.SheetNames.find(s => s.toLowerCase().includes('task 2')) || rawWorkbookData.SheetNames[0];
+            sheetSelect.value = targetSheet;
+
+            parseSheet(targetSheet);
+            document.getElementById('dataLoadedBadge').textContent = fileName;
+            document.getElementById('dataLoadedBadge').className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        };
+
+        // -------------------------------------------------------------
+        // LOCAL STORAGE FOR SAMPLE ESSAYS
+        // -------------------------------------------------------------
+        function loadEssayStoreFromLocal() {
+            try {
+                const stored = localStorage.getItem('ielts_writing_sample_essays');
+                if (stored) {
+                    essayStore = JSON.parse(stored);
+                }
+            } catch (e) {
+                console.error("Failed to load essays from localStorage", e);
+                essayStore = {};
+            }
+        }
+
+        function saveEssayStoreToLocal() {
+            try {
+                localStorage.setItem('ielts_writing_sample_essays', JSON.stringify(essayStore));
+            } catch (e) {
+                console.error("Failed to save essays to localStorage", e);
+            }
+        }
+
+        function getPromptKey(item) {
+            if (item.shortTitle) return item.shortTitle.trim().toLowerCase();
+            if (item.fullPrompt) return item.fullPrompt.slice(0, 50).trim().toLowerCase();
+            return item.id;
+        }
+
+        // -------------------------------------------------------------
+        // EXCEL PARSING LOGIC (SheetJS)
+        // -------------------------------------------------------------
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    window.loadIELTSWorkbook(e.target.result, file.name);
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        }
+
+        function changeSheet() {
+            const sheetName = document.getElementById('sheetSelect').value;
+            if (rawWorkbookData && sheetName) {
+                parseSheet(sheetName);
+                showToast(`Switched to sheet: ${sheetName}`);
+            }
+        }
+
+        function parseSheet(sheetName) {
+            const worksheet = rawWorkbookData.Sheets[sheetName];
+            if (!worksheet) return;
+
+            const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
+            if (rows.length === 0) {
+                showToast("Selected sheet is empty.", "error");
+                return;
+            }
+
+            // Find header row containing column names
+            let headerRowIdx = -1;
+            for (let i = 0; i < Math.min(rows.length, 15); i++) {
+                const rowStr = rows[i].join(' ').toLowerCase();
+                if (rowStr.includes('dạng đề') || rowStr.includes('chủ đề') || rowStr.includes('đề (tên ngắn)') || rowStr.includes('đề đầy đủ')) {
+                    headerRowIdx = i;
+                    break;
+                }
+            }
+
+            if (headerRowIdx === -1) {
+                headerRowIdx = 1 < rows.length ? 1 : 0;
+            }
+
+            const headerRow = rows[headerRowIdx].map(c => String(c).trim());
+
+            const getColIdx = (possibleNames) => {
+                return headerRow.findIndex(h => possibleNames.some(name => h.toLowerCase().includes(name.toLowerCase())));
+            };
+
+            const idxFullPrompt = getColIdx(['Đề đầy đủ', 'Đề đầy đủ (nếu có)', 'Full Prompt']);
+            const idxShortTitle = getColIdx(['Đề (tên ngắn)', 'Tên ngắn', 'Short Title', 'Đề']);
+            const idxEssayType = getColIdx(['Dạng đề', 'Essay Type', 'Type']);
+            const idxTopic = getColIdx(['Chủ đề', 'Topic']);
+            const idxOccurrences = getColIdx(['Số lượt (ngày)', 'Số lượt', 'Occurrences']);
+            const idxRecordedCount = getColIdx(['Số lần ghi nhận', 'Số lần']);
+            const idxDateRange = getColIdx(['Lần đầu → gần nhất', 'Ngày', 'Date']);
+            const idxSources = getColIdx(['Ngày – cơ sở / nguồn', 'Nguồn', 'Sources']);
+            const idxAltPhrasings = getColIdx(['Cách ghi khác', 'Cách ghi khác của cùng đề']);
+            const idxSampleEssay = getColIdx(['Bài mẫu', 'Sample Essay', 'Sample']);
+
+            const newPrompts = [];
+            let promptCounter = 1;
+
+            for (let r = headerRowIdx + 1; r < rows.length; r++) {
+                const row = rows[r];
+                if (!row || row.length === 0) continue;
+
+                const fullPrompt = idxFullPrompt >= 0 ? String(row[idxFullPrompt] || '').trim() : '';
+                const shortTitle = idxShortTitle >= 0 ? String(row[idxShortTitle] || '').trim() : '';
+                const essayTypeRaw = idxEssayType >= 0 ? String(row[idxEssayType] || '').trim() : 'Other';
+                const topicRaw = idxTopic >= 0 ? String(row[idxTopic] || '').trim() : 'General';
+                const occRaw = idxOccurrences >= 0 ? parseInt(row[idxOccurrences], 10) : 1;
+                const recRaw = idxRecordedCount >= 0 ? parseInt(row[idxRecordedCount], 10) : occRaw;
+                const dateRange = idxDateRange >= 0 ? String(row[idxDateRange] || '').trim() : '';
+                const sources = idxSources >= 0 ? String(row[idxSources] || '').trim() : '';
+                const altPhrasings = idxAltPhrasings >= 0 ? String(row[idxAltPhrasings] || '').trim() : '';
+                const excelSample = idxSampleEssay >= 0 ? String(row[idxSampleEssay] || '').trim() : '';
+
+                // Filter out banner section rows (e.g., "B. ĐỀ TRÙNG")
+                if (!shortTitle && !fullPrompt) continue;
+                if (shortTitle.toLowerCase().startsWith('b. đề') || shortTitle.toLowerCase().startsWith('c. đề')) continue;
+
+                let normalizedType = normalizeEssayType(essayTypeRaw);
+                let occurrences = isNaN(occRaw) || occRaw < 1 ? 1 : occRaw;
+
+                const item = {
+                    id: `excel_${promptCounter++}`,
+                    shortTitle: shortTitle || fullPrompt.slice(0, 40) + '...',
+                    fullPrompt: fullPrompt || shortTitle,
+                    essayType: normalizedType,
+                    topic: topicRaw || 'General',
+                    occurrences: occurrences,
+                    recordedCount: isNaN(recRaw) ? occurrences : recRaw,
+                    dateRange: dateRange,
+                    sources: sources,
+                    altPhrasings: altPhrasings
+                };
+
+                const key = getPromptKey(item);
+                if (!essayStore[key] && excelSample) {
+                    essayStore[key] = excelSample;
+                }
+
+                newPrompts.push(item);
+            }
+
+            if (newPrompts.length > 0) {
+                parsedPrompts = newPrompts;
+                saveEssayStoreToLocal();
+                populateFilterDropdowns();
+                applyFilters();
+            } else {
+                showToast("Could not extract prompts from sheet.", "error");
+            }
+        }
+
+        function normalizeEssayType(raw) {
+            if (!raw) return 'Other';
+            const lower = raw.toLowerCase();
+            if (lower.includes('opinion') || lower.includes('agree') || lower.includes('disagree')) return 'Opinion';
+            if (lower.includes('discussion') || lower.includes('both views')) return 'Discussion';
+            if (lower.includes('problem') || lower.includes('solution') || lower.includes('cause')) return 'Problem & Solution';
+            if (lower.includes('direct') || lower.includes('question') || lower.includes('2 questions')) return 'Direct Questions';
+            if (lower.includes('advantage') || lower.includes('disadvantage')) return 'Advantages & Disadvantages';
+            return raw;
+        }
+
+        function loadSampleData() {
+            parsedPrompts = [...DEMO_PROMPTS];
+            populateFilterDropdowns();
+            applyFilters();
+            document.getElementById('dataLoadedBadge').textContent = 'Demo Mode';
+            showToast("Demo dataset loaded");
+        }
+
+        // -------------------------------------------------------------
+        // FILTERING & SEARCH
+        // -------------------------------------------------------------
+        function populateFilterDropdowns() {
+            const topicFilter = document.getElementById('topicFilter');
+            const typeFilter = document.getElementById('typeFilter');
+
+            const currentTopic = topicFilter.value;
+            const currentType = typeFilter.value;
+
+            const topics = Array.from(new Set(parsedPrompts.map(p => p.topic).filter(Boolean))).sort();
+            const types = Array.from(new Set(parsedPrompts.map(p => p.essayType).filter(Boolean))).sort();
+
+            topicFilter.innerHTML = '<option value="ALL">All Topics (Tất cả chủ đề)</option>';
+            topics.forEach(t => {
+                const opt = document.createElement('option');
+                opt.value = t;
+                opt.textContent = t;
+                topicFilter.appendChild(opt);
+            });
+            topicFilter.value = topics.includes(currentTopic) ? currentTopic : 'ALL';
+
+            typeFilter.innerHTML = '<option value="ALL">All Essay Types (Dạng đề)</option>';
+            types.forEach(t => {
+                const opt = document.createElement('option');
+                opt.value = t;
+                opt.textContent = t;
+                typeFilter.appendChild(opt);
+            });
+            typeFilter.value = types.includes(currentType) ? currentType : 'ALL';
+        }
+
+        function applyFilters() {
+            const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
+            const topicVal = document.getElementById('topicFilter').value;
+            const typeVal = document.getElementById('typeFilter').value;
+            const statusVal = document.getElementById('statusFilter').value;
+
+            document.getElementById('clearSearchBtn').classList.toggle('hidden', searchVal.length === 0);
+
+            filteredPrompts = parsedPrompts.filter(item => {
+                if (searchVal) {
+                    const matchText = (item.shortTitle + ' ' + item.fullPrompt + ' ' + item.topic + ' ' + item.essayType + ' ' + item.sources + ' ' + item.altPhrasings).toLowerCase();
+                    if (!matchText.includes(searchVal)) return false;
+                }
+
+                if (topicVal !== 'ALL' && item.topic !== topicVal) return false;
+                if (typeVal !== 'ALL' && item.essayType !== typeVal) return false;
+
+                if (statusVal === 'HAS_ESSAY') {
+                    const key = getPromptKey(item);
+                    if (!essayStore[key] || essayStore[key].trim().length === 0) return false;
+                } else if (statusVal === 'NEEDS_ESSAY') {
+                    const key = getPromptKey(item);
+                    if (essayStore[key] && essayStore[key].trim().length > 0) return false;
+                } else if (statusVal === 'FREQ_2') {
+                    if (item.occurrences < 2) return false;
+                }
+
+                return true;
+            });
+
+            updateUI();
+            updateFilterTags();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            applyFilters();
+        }
+
+        function resetAllFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('topicFilter').value = 'ALL';
+            document.getElementById('typeFilter').value = 'ALL';
+            document.getElementById('statusFilter').value = 'ALL';
+            applyFilters();
+            showToast("All filters reset");
+        }
+
+        function updateFilterTags() {
+            const container = document.getElementById('activeFilterTags');
+            const tagsList = document.getElementById('filterTagsList');
+            tagsList.innerHTML = '';
+
+            const searchVal = document.getElementById('searchInput').value.trim();
+            const topicVal = document.getElementById('topicFilter').value;
+            const typeVal = document.getElementById('typeFilter').value;
+            const statusVal = document.getElementById('statusFilter').value;
+
+            let activeCount = 0;
+
+            if (searchVal) {
+                activeCount++;
+                addTag(`Search: "${searchVal}"`, () => { clearSearch(); });
+            }
+            if (topicVal !== 'ALL') {
+                activeCount++;
+                addTag(`Topic: ${topicVal}`, () => { document.getElementById('topicFilter').value = 'ALL'; applyFilters(); });
+            }
+            if (typeVal !== 'ALL') {
+                activeCount++;
+                addTag(`Type: ${typeVal}`, () => { document.getElementById('typeFilter').value = 'ALL'; applyFilters(); });
+            }
+            if (statusVal !== 'ALL') {
+                activeCount++;
+                addTag(`Status: ${statusVal}`, () => { document.getElementById('statusFilter').value = 'ALL'; applyFilters(); });
+            }
+
+            container.classList.toggle('hidden', activeCount === 0);
+
+            function addTag(label, removeCb) {
+                const tag = document.createElement('span');
+                tag.className = 'inline-flex items-center gap-1 bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded text-xs border border-indigo-200';
+                tag.innerHTML = `${label} <i data-lucide="x" class="w-3 h-3 cursor-pointer hover:text-indigo-900"></i>`;
+                tag.querySelector('i').onclick = removeCb;
+                tagsList.appendChild(tag);
+                lucide.createIcons();
+            }
+        }
+
+        // -------------------------------------------------------------
+        // UI RENDERING & CHARTS
+        // -------------------------------------------------------------
+        function updateUI() {
+            renderKPIs();
+            renderCharts();
+            renderTable();
+        }
+
+        function renderKPIs() {
+            const totalPrompts = parsedPrompts.length;
+            const totalOccurrences = parsedPrompts.reduce((sum, p) => sum + p.occurrences, 0);
+
+            const typeCounts = {};
+            parsedPrompts.forEach(p => {
+                typeCounts[p.essayType] = (typeCounts[p.essayType] || 0) + 1;
+            });
+            let topType = '-';
+            let maxTypeCount = 0;
+            Object.entries(typeCounts).forEach(([type, count]) => {
+                if (count > maxTypeCount) {
+                    maxTypeCount = count;
+                    topType = type;
+                }
+            });
+
+            let essayCount = 0;
+            parsedPrompts.forEach(p => {
+                const key = getPromptKey(p);
+                if (essayStore[key] && essayStore[key].trim().length > 0) {
+                    essayCount++;
+                }
+            });
+
+            const percent = totalPrompts > 0 ? Math.round((essayCount / totalPrompts) * 100) : 0;
+
+            document.getElementById('kpiTotalPrompts').textContent = totalPrompts.toLocaleString();
+            document.getElementById('kpiTotalOccurrences').textContent = totalOccurrences.toLocaleString();
+            document.getElementById('kpiTopType').textContent = topType;
+            document.getElementById('kpiTopTypeSub').textContent = `${maxTypeCount} prompts (${totalPrompts > 0 ? Math.round((maxTypeCount/totalPrompts)*100) : 0}%)`;
+            document.getElementById('kpiEssayCount').textContent = `${essayCount} / ${totalPrompts}`;
+            document.getElementById('kpiEssayPercent').textContent = `${percent}% complete`;
+            document.getElementById('filteredCountBadge').textContent = `${filteredPrompts.length} of ${totalPrompts} prompts`;
+        }
+
+        function renderCharts() {
+            // Aggregate Topics & Match Colors
+            const topicCounts = {};
+            parsedPrompts.forEach(p => {
+                topicCounts[p.topic] = (topicCounts[p.topic] || 0) + p.occurrences;
+            });
+
+            const sortedTopics = Object.entries(topicCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 8);
+
+            document.getElementById('topicCountBadge').textContent = `${Object.keys(topicCounts).length} Topics`;
+
+            // Bar colors dynamically mapped to exact topic colors!
+            const topicBarColors = sortedTopics.map(t => getTopicStyle(t[0]).hex);
+
+            const ctxTopic = document.getElementById('topicChart').getContext('2d');
+            if (topicChartInstance) topicChartInstance.destroy();
+
+            topicChartInstance = new Chart(ctxTopic, {
+                type: 'bar',
+                data: {
+                    labels: sortedTopics.map(t => t[0]),
+                    datasets: [{
+                        label: 'Exam Days',
+                        data: sortedTopics.map(t => t[1]),
+                        backgroundColor: topicBarColors,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => ` Recorded Exam Days: ${context.parsed.y}`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+                        y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { precision: 0 } }
+                    },
+                    onClick: (evt, activeElements) => {
+                        if (activeElements.length > 0) {
+                            const index = activeElements[0].index;
+                            const clickedTopic = sortedTopics[index][0];
+                            document.getElementById('topicFilter').value = clickedTopic;
+                            applyFilters();
+                            showToast(`Filtered by Topic: ${clickedTopic}`);
+                        }
+                    }
+                }
+            });
+
+            // Essay Types Chart
+            const typeCounts = {};
+            parsedPrompts.forEach(p => {
+                typeCounts[p.essayType] = (typeCounts[p.essayType] || 0) + 1;
+            });
+
+            const typeLabels = Object.keys(typeCounts);
+            const typeValues = Object.values(typeCounts);
+            const typeColorsArr = typeLabels.map(lbl => (TYPE_COLORS[lbl] ? TYPE_COLORS[lbl].hex : '#94a3b8'));
+
+            const ctxType = document.getElementById('typeChart').getContext('2d');
+            if (typeChartInstance) typeChartInstance.destroy();
+
+            typeChartInstance = new Chart(ctxType, {
+                type: 'doughnut',
+                data: {
+                    labels: typeLabels,
+                    datasets: [{
+                        data: typeValues,
+                        backgroundColor: typeColorsArr,
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { boxWidth: 10, font: { size: 10 } }
+                        }
+                    },
+                    onClick: (evt, activeElements) => {
+                        if (activeElements.length > 0) {
+                            const index = activeElements[0].index;
+                            const clickedType = typeLabels[index];
+                            document.getElementById('typeFilter').value = clickedType;
+                            applyFilters();
+                            showToast(`Filtered by Type: ${clickedType}`);
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('promptTableBody');
+            const emptyState = document.getElementById('emptyState');
+            tbody.innerHTML = '';
+
+            if (filteredPrompts.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            filteredPrompts.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50/80 transition group';
+
+                const promptKey = getPromptKey(item);
+                const hasEssay = essayStore[promptKey] && essayStore[promptKey].trim().length > 0;
+                const essayText = essayStore[promptKey] || '';
+
+                // Get Distinct Topic Styling
+                const topicStyle = getTopicStyle(item.topic);
+
+                // Essay Type Styling
+                const typeStyle = TYPE_COLORS[item.essayType] || TYPE_COLORS['Other'];
+
+                tr.innerHTML = `
+                    <td class="py-3.5 px-4 text-center font-medium text-slate-400 group-hover:text-slate-600">${index + 1}</td>
+                    <td class="py-3.5 px-4">
+                        <div class="space-y-1">
+                            <h4 class="font-bold text-slate-800 text-sm hover:text-indigo-600 transition cursor-pointer" onclick="openEssayModal('${item.id}')">
+                                ${escapeHtml(item.shortTitle)}
+                            </h4>
+                            <p class="text-xs text-slate-600 font-serif leading-relaxed line-clamp-2">
+                                ${escapeHtml(item.fullPrompt)}
+                            </p>
+                            ${item.altPhrasings ? `<p class="text-[11px] text-slate-400 italic">Alt: ${escapeHtml(item.altPhrasings)}</p>` : ''}
+                        </div>
+                    </td>
+                    <td class="py-3.5 px-3">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${typeStyle.bg} ${typeStyle.text} ${typeStyle.border}">
+                            ${escapeHtml(item.essayType)}
+                        </span>
+                    </td>
+                    <td class="py-3.5 px-3">
+                        <!-- Distinct Topic Badge -->
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-semibold border ${topicStyle.bg} ${topicStyle.text} ${topicStyle.border}">
+                            ${escapeHtml(item.topic)}
+                        </span>
+                    </td>
+                    <td class="py-3.5 px-3 text-center">
+                        <div class="inline-flex flex-col items-center">
+                            <span class="font-bold text-sm ${item.occurrences >= 2 ? 'text-indigo-600' : 'text-slate-700'}">${item.occurrences}</span>
+                            <span class="text-[10px] text-slate-400">days</span>
+                        </div>
+                    </td>
+                    <td class="py-3.5 px-3">
+                        <div class="text-[11px] text-slate-600 space-y-0.5">
+                            <div>${escapeHtml(item.dateRange || 'N/A')}</div>
+                            <div class="text-slate-400 truncate max-w-[130px]" title="${escapeHtml(item.sources)}">${escapeHtml(item.sources || '')}</div>
+                        </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                        ${hasEssay ? `
+                            <button onclick="openEssayModal('${item.id}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-semibold transition">
+                                <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
+                                <span>Edit Essay (${countWords(essayText)}w)</span>
+                            </button>
+                        ` : `
+                            <button onclick="openEssayModal('${item.id}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 border border-slate-200 rounded-lg text-xs font-medium transition">
+                                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                                <span>+ Write Essay</span>
+                            </button>
+                        `}
+                    </td>
+                `;
+
+                tbody.appendChild(tr);
+            });
+
+            lucide.createIcons();
+        }
+
+        // -------------------------------------------------------------
+        // MODAL ESSAY EDITOR
+        // -------------------------------------------------------------
+        function openEssayModal(promptId) {
+            const item = parsedPrompts.find(p => p.id === promptId);
+            if (!item) return;
+
+            currentActivePromptId = promptId;
+            const key = getPromptKey(item);
+            const savedEssay = essayStore[key] || '';
+
+            const topicStyle = getTopicStyle(item.topic);
+            const modalTopicBadge = document.getElementById('modalTopicBadge');
+            modalTopicBadge.textContent = item.topic;
+            modalTopicBadge.className = `px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${topicStyle.bg} ${topicStyle.text} ${topicStyle.border}`;
+
+            document.getElementById('modalTypeBadge').textContent = item.essayType;
+            document.getElementById('modalShortTitle').textContent = item.shortTitle;
+            document.getElementById('modalFullPrompt').textContent = item.fullPrompt;
+
+            const textarea = document.getElementById('essayTextArea');
+            textarea.value = savedEssay;
+            
+            handleEssayInput();
+            document.getElementById('essayModal').classList.remove('hidden');
+        }
+
+        function closeEssayModal() {
+            document.getElementById('essayModal').classList.add('hidden');
+            currentActivePromptId = null;
+        }
+
+        function handleEssayInput() {
+            const text = document.getElementById('essayTextArea').value;
+            const wordCount = countWords(text);
+            
+            const badge = document.getElementById('wordCountBadge');
+            badge.textContent = `${wordCount} words`;
+
+            if (wordCount >= 250) {
+                badge.className = 'px-2.5 py-1 rounded-md font-semibold bg-emerald-100 text-emerald-700 border border-emerald-200';
+            } else if (wordCount > 0) {
+                badge.className = 'px-2.5 py-1 rounded-md font-semibold bg-amber-100 text-amber-700 border border-amber-200';
+            } else {
+                badge.className = 'px-2.5 py-1 rounded-md font-semibold bg-slate-100 text-slate-600 border border-slate-200';
+            }
+
+            if (currentActivePromptId) {
+                const item = parsedPrompts.find(p => p.id === currentActivePromptId);
+                if (item) {
+                    const key = getPromptKey(item);
+                    essayStore[key] = text;
+                    saveEssayStoreToLocal();
+                    renderKPIs();
+                }
+            }
+        }
+
+        function saveCurrentEssay() {
+            if (!currentActivePromptId) return;
+            const item = parsedPrompts.find(p => p.id === currentActivePromptId);
+            if (!item) return;
+
+            const key = getPromptKey(item);
+            const text = document.getElementById('essayTextArea').value;
+            
+            essayStore[key] = text;
+            saveEssayStoreToLocal();
+            
+            renderTable();
+            renderKPIs();
+            closeEssayModal();
+            showToast("Sample essay saved!");
+        }
+
+        function clearCurrentEssay() {
+            if (!confirm("Clear current essay text?")) return;
+            document.getElementById('essayTextArea').value = '';
+            handleEssayInput();
+        }
+
+        function copyPromptToClipboard() {
+            const promptText = document.getElementById('modalFullPrompt').textContent;
+            const dummy = document.createElement('textarea');
+            document.body.appendChild(dummy);
+            dummy.value = promptText;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+
+            showToast("Prompt copied to clipboard!");
+        }
+
+        // -------------------------------------------------------------
+        // EXPORT HANDLERS
+        // -------------------------------------------------------------
+        function exportToExcel() {
+            if (parsedPrompts.length === 0) {
+                showToast("No data available to export.", "error");
+                return;
+            }
+
+            const exportData = parsedPrompts.map(p => {
+                const key = getPromptKey(p);
+                return {
+                    'Đề (tên ngắn)': p.shortTitle,
+                    'Đề đầy đủ (nếu có)': p.fullPrompt,
+                    'Dạng đề': p.essayType,
+                    'Chủ đề': p.topic,
+                    'Số lượt (ngày)': p.occurrences,
+                    'Số lần ghi nhận': p.recordedCount,
+                    'Lần đầu → gần nhất': p.dateRange,
+                    'Ngày – cơ sở / nguồn': p.sources,
+                    'Cách ghi khác của cùng đề': p.altPhrasings,
+                    'Bài mẫu (Sample Essay)': essayStore[key] || ''
+                };
+            });
+
+            const worksheet = XLSX.utils.json_to_sheet(exportData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Writing Task 2 Tracker");
+
+            XLSX.writeFile(workbook, `IELTS_Task2_Tracker_With_Essays_${new Date().toISOString().slice(0,10)}.xlsx`);
+            showToast("Excel sheet exported with essays!");
+        }
+
+        function exportToJSON() {
+            const dataToExport = {
+                prompts: parsedPrompts,
+                essays: essayStore,
+                exportedAt: new Date().toISOString()
+            };
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataToExport, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `IELTS_Task2_Backup_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+
+            showToast("JSON backup downloaded!");
+        }
+
+        // -------------------------------------------------------------
+        // UTILITY FUNCTIONS
+        // -------------------------------------------------------------
+        function countWords(str) {
+            if (!str) return 0;
+            return str.trim().split(/\s+/).filter(Boolean).length;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMsg.textContent = message;
+
+            if (type === 'error') {
+                toastIcon.setAttribute('data-lucide', 'alert-circle');
+                toastIcon.className = 'w-4 h-4 text-rose-400';
+            } else {
+                toastIcon.setAttribute('data-lucide', 'check-circle');
+                toastIcon.className = 'w-4 h-4 text-emerald-400';
+            }
+            lucide.createIcons();
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
